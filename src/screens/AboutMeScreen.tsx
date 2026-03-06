@@ -12,10 +12,11 @@ function AboutMeScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="About Me — AS.DEV"
-        description="Learn more about Abdellah S.DEV, full‑stack developer focused on clean architecture and performance."
+        title="About Me | AS.DEV"
+        description="Learn more about Abdellah S.DEV, full-stack developer focused on clean architecture and performance."
         keywords={["about","developer","AS.DEV","skills"]}
         canonicalPath="/about"
+        image="/src/assets/myPhoto.png"
         type="profile"
       />
       <NavBar />

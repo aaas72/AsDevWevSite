@@ -11,10 +11,11 @@ function ProjectsScreen() {
   return (
     <div className="min-h-screen ">
       <Seo
-        title="Projects — AS.DEV"
-        description="Selected projects by Abdellah S.DEV across full‑stack web development and software engineering."
+        title="Projects | AS.DEV"
+        description="Selected projects by Abdellah S.DEV in web development and software engineering."
         keywords={["projects","portfolio","AS.DEV"]}
         canonicalPath="/projects"
+        image="/src/assets/myPhoto.png"
         type="website"
       />
       <NavBar />

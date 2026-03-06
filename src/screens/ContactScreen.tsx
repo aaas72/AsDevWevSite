@@ -11,10 +11,11 @@ function ContactScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="Contact — AS.DEV"
+        title="Contact | AS.DEV"
         description="Get in touch with Abdellah S.DEV for consultations, projects, and collaborations."
         keywords={["contact","hire","consultation","AS.DEV"]}
         canonicalPath="/contact"
+        image="/src/assets/myPhoto.png"
         type="website"
       />
       <NavBar />

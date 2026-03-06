@@ -9,10 +9,11 @@ const ProjectScreen: React.FC = () => {
   return (
     <div className="min-h-screen ">
       <Seo
-        title={`Project — AS.DEV`}
+        title={`Project Details | AS.DEV`}
         description="Detailed view of a project by Abdellah S.DEV."
         keywords={["project","AS.DEV","case study"]}
         canonicalPath={`/project/${projectId ?? ""}`}
+        image="/src/assets/myPhoto.png"
         type="article"
       />
       <NavBar />

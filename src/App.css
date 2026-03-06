@@ -38,6 +38,9 @@
   width: auto;
   height: auto;
   background-image: url("./assets/bg/noise-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   font-family: "League Spartan", sans-serif;
 }
 
