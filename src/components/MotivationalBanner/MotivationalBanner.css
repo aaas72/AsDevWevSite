@@ -1,0 +1,17 @@
+@keyframes marquee-rtl {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes marquee-ltr {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-rtl {
+  animation: marquee-rtl 25s linear infinite;
+}
+
+.marquee-ltr {
+  animation: marquee-ltr 25s linear infinite;
+}

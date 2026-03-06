@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+:root {
+  /* نظام الألوان الموحد */
+  --color-primary: #c5c5c5;
+  --color-primary-light: #e5e5e5;
+  --color-primary-dark: #a5a5a5;
+  --color-primary-darker: #919191;
+  --color-primary-darkest: #505050;
+  --color-secondary: #1e1e1e;
+  --color-secondary-light: #2a2a2a;
+  --color-secondary-dark: #171717;
+  --color-accent-blue: #4f46e5;
+
+  /* متغيرات الخط والمسافات */
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+
+  /* متغيرات المسافات والهوامش */
+  --spacing-base: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* متغيرات التباعد بين الأسطر */
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --line-height-loose: 2;
+  --line-height-blog: 2.2;
+}
+
+.main-app {
+  width: auto;
+  height: auto;
+  background-image: url("./assets/bg/noise-bg.svg");
+  font-family: "League Spartan", sans-serif;
+}
+
+/* تحسينات للتكيف مع الأجهزة المختلفة */
+/* الشاشات الصغيرة جداً (الهواتف) */
+@media (max-width: 480px) {
+  :root {
+    --font-size-base: 0.875rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.125rem;
+    --font-size-2xl: 1.25rem;
+    --font-size-3xl: 1.5rem;
+    --font-size-4xl: 1.875rem;
+    --font-size-5xl: 2.25rem;
+
+    --spacing-base: 0.75rem;
+    --spacing-lg: 1rem;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
+  }
+
+  .blog-content .prose {
+    font-size: 0.875rem;
+  }
+  .blog-content .prose h1 {
+    font-size: 1.5rem;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-base);
+  }
+  .blog-content .prose h2 {
+    font-size: 1.25rem;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-base);
+  }
+  .blog-content .prose h3 {
+    font-size: 1.125rem;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-base);
+  }
+  .blog-content .prose p {
+    margin: var(--spacing-base) 0;
+  }
+  .blog-content .prose img {
+    margin: var(--spacing-lg) 0;
+  }
+}
+
+/* الشاشات الصغيرة (الهواتف الكبيرة والأجهزة اللوحية الصغيرة) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .blog-content .prose {
+    font-size: 1rem;
+  }
+  .blog-content .prose h1 {
+    font-size: 1.75rem;
+  }
+  .blog-content .prose h2 {
+    font-size: 1.5rem;
+  }
+  .blog-content .prose h3 {
+    font-size: 1.25rem;
+  }
+  .blog-content .prose p {
+    line-height: var(--line-height-relaxed);
+  }
+}
+
+/* الشاشات المتوسطة (الأجهزة اللوحية) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .blog-content .prose {
+    font-size: 1.125rem;
+  }
+  .blog-content .prose h1 {
+    font-size: 2rem;
+  }
+  .blog-content .prose h2 {
+    font-size: 1.75rem;
+  }
+  .blog-content .prose h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* الشاشات الكبيرة (الحواسيب المكتبية) */
+@media (min-width: 769px) {
+  .blog-content .prose {
+    font-size: var(--font-size-xl);
+  }
+  .blog-content .prose p {
+    line-height: var(--line-height-blog);
+  }
+}
+
+/* تحسين سلوك التمرير */
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden; /* منع التمرير الأفقي */
+}
+
+/* تأكد من أن كل صفحة تأخذ ارتفاعًا كاملًا على الأقل */
+.main-app {
+  min-height: 100vh;
+}
+
+/* Skip link for better keyboard navigation */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  background: var(--color-accent-blue);
+  color: white;
+  border-radius: 8px;
+  z-index: 1000;
+}

@@ -1,0 +1,284 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Made In Aden Website",
+      "shortDescription": "A complete redesign of an Made In Aden Website platform focusing on user experience and conversion optimization.",
+      "description": "Redesigned the entire user experience with modern UI/UX principles to improve usability, accessibility, and overall engagement.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756229669/madeinaden_cover_x4qpmw.png",
+      "projectUrl": "https://madeinaden.org",
+      "category": "Web Development",
+      "services": [
+        "UI/UX Design",
+        "Frontend Development"
+      ],
+      "website": "https://madeinaden.org",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1756229669/madeinaden_cover_x4qpmw.png",
+      "overview": "This project involved a complete redesign of the Made in Aden Development Foundation website, a youth-led initiative established in 2019 and officially registered in 2020. The foundation brings together doctors, engineers, educators, and young professionals with the mission of reviving Aden’s industrial and cultural heritage while fostering sustainable development for future generations. With a strong focus on youth and women (60% women and 40% youth involvement), the foundation needed a modern, responsive, and professional digital presence that could reflect its vision, values, and impact. Our redesign emphasized clear storytelling, accessible information architecture, and visually engaging design to inspire trust, attract supporters, and highlight the foundation’s ongoing projects and achievements.",
+      "challenge": "The main challenge was to transform the website into a platform that effectively communicates the foundation’s mission and diverse activities while appealing to multiple audiences, including local communities, partners, donors, and international organizations. We had to design an interface that balances professionalism with cultural identity, ensuring it represents Aden authentically while meeting global design and usability standards. Another challenge was creating a scalable structure that allows the foundation to easily publish updates, showcase initiatives, and share success stories, all while maintaining fast performance and accessibility across devices and varying internet conditions.",
+      "technicalStack": [
+        "React",
+        "Tailwind CSS"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Home Page",
+          "description": "Completely redesigned homepage with improved product categorization and featured items section.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756229671/homePage_l3jyzr.png"
+        },
+        {
+          "id": 2,
+          "title": "About Page",
+          "description": "",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756229666/aboutPage_u1omyq.png"
+        },
+        {
+          "id": 3,
+          "title": "Contact Page",
+          "description": "",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756229667/contactPage_i6zssg.png"
+        },
+        {
+          "id": 4,
+          "title": "Projects Page",
+          "description": "",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756229665/projectsPage_tmhlpn.png"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Personal Portfolio Website",
+      "shortDescription": "A modern and responsive personal portfolio website showcasing projects, skills, and professional experience.",
+      "description": "Designed and developed a complete personal portfolio website using modern UI/UX principles, focusing on responsiveness, accessibility, and a clear presentation of skills and projects.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756232891/cover_sgnxcc.png",
+      "projectUrl": "https://my-site-a31f7.web.app",
+      "category": "Web Development",
+      "services": [
+        "UI/UX Design",
+        "Frontend Development",
+        "Responsive Web Design"
+      ],
+      "website": "https://my-site-a31f7.web.app",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1756232891/cover_sgnxcc.png",
+      "overview": "This project involved building a personal portfolio website to showcase professional experience, projects, and skills. The website was designed to be fully responsive and visually appealing across devices. The focus was on creating a clean and modern design that communicates professionalism and highlights technical expertise. Key features include an interactive projects section, skill indicators, contact form, and a blog section for insights and updates.",
+      "challenge": "The main challenge was to design a portfolio that effectively presents multiple types of content — projects, skills, blog posts, and contact information — in a cohesive, intuitive layout. Another challenge was ensuring fast load times and optimal performance, particularly on mobile devices, while maintaining a visually rich experience with animations, images, and interactive elements.",
+      "technicalStack": [
+        "React",
+        "Tailwind CSS",
+        "JavaScript"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Home Page",
+          "description": "Clean and interactive homepage featuring an introduction, skills overview, and featured projects.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756232901/homePage_d88fod.png"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Misaha Furniture Store Landing Page",
+      "shortDescription": "A sleek and elegant landing page for a minimalist furniture store, designed to showcase products in a modern and inviting way.",
+      "description": "Designed and developed a comprehensive landing page for a furniture store, focusing on delivering a seamless and comfortable browsing experience. The interface features a modern design with a neutral color palette and leverages high-quality product images. This project demonstrates the ability to create attractive and user-friendly web interfaces.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756743723/_D__PROJECTS_WEB_WITHME_misaha_index_index.html_1_gmrh8b.png",
+      "projectUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756743723/_D__PROJECTS_WEB_WITHME_misaha_index_index.html_1_gmrh8b.png",
+      "category": "Web Development",
+      "services": [
+        "UI/UX Design",
+        "Frontend Development"
+      ],
+      "website": "https://my-site-a31f7.web.app",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1756743723/_D__PROJECTS_WEB_WITHME_misaha_index_index.html_1_gmrh8b.png",
+      "overview": "This project involved building a beautiful landing page for a furniture store. The goal was to create a simple yet effective interface that presents products in a contemporary style, providing an excellent user experience. The focus was on a cohesive design that highlights the furniture's aesthetic appeal and encourages visitors to explore further.",
+      "challenge": "The main challenge was to achieve a balance between visual aesthetics and usability. This was overcome by using a clean, organized layout and high-quality images, making the page visually appealing without being cluttered or complex.",
+      "technicalStack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Home Page",
+          "description": "The main landing page of the store, showcasing products and providing a simple, elegant interface.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1756744240/_D__PROJECTS_WEB_WITHME_misaha_index_index.html_2_oonifx.png"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Noor - Quranic & Daily Duas Platform",
+      "shortDescription": "A comprehensive platform offering a wide collection of Quranic and daily supplications, organized by categories for easy access.",
+      "description": "Developed a user-friendly web platform named 'Noor' that provides a rich collection of Quranic and daily supplications. The platform allows users to browse, search, and explore a wide range of duas categorized for different occasions, including morning, evening, travel, health, and more. The design focuses on simplicity, readability, and accessibility to enhance the user's spiritual experience.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1757659751/localhost_5174__qxl70f.png",
+      "projectUrl": "https://res.cloudinary.com/asdev1/image/upload/v1757659751/localhost_5174__qxl70f.png",
+      "category": "Web Development",
+      "services": [
+        "UI/UX Design",
+        "Frontend Development",
+        "Content Organization"
+      ],
+      "website": "https://noor.abdellahsheikh.com",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1757659751/localhost_5174__qxl70f.png",
+      "overview": "Noor is designed to make spiritual practice accessible and easy. It offers a visually clean interface where users can explore a variety of duas, filtered by categories and occasions. The platform emphasizes readability, responsive design, and smooth navigation to provide a seamless experience for users seeking spiritual enrichment.",
+      "challenge": "The main challenge was organizing a large collection of supplications into intuitive categories while maintaining a clean and responsive interface. This was solved by implementing a structured layout, search functionality, and visually distinct sections for each category.",
+      "technicalStack": [
+        "React",
+        "CSS3",
+        "JavaScript",
+        "HTML5"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Home Page",
+          "description": "The main landing page displaying featured duas, categories, and search functionality for easy access.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1757659751/localhost_5174__qxl70f.png"
+        },
+        {
+          "id": 2,
+          "title": "Dua Catalog",
+          "description": "A dynamic catalog page with categorized duas, allowing users to filter by occasion, type, or reference.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1757659899/localhost_5174__1_nau6cf.png"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Blog API - Content Management System",
+      "shortDescription": "A powerful and secure backend API for a blog platform, developed with Node.js and Express.js, featuring advanced functionalities.",
+      "description": "This project is a comprehensive backend API for a Content Management System (CMS) designed for a blog. It was developed as a professional training project, covering the entire software development lifecycle from planning and architecture to testing and deployment. The API provides robust functionalities for managing users, posts, and comments, with a strong focus on security, performance, and scalability.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1760816178/coverImage_fdaaf2.jpg",
+      "projectUrl": "https://github.com/aaas72/BlogAPI",
+      "category": "Backend Development",
+      "services": [
+        "API Development",
+        "Database Management",
+        "Authentication & Security",
+        "Automated Testing"
+      ],
+      "website": "https://your-deployed-api-url.com",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1760816378/Screenshot_2025-10-18_223910_qod8t3.png",
+      "overview": "The Blog API is built on a modern technology stack, centered around Node.js and the Express framework. It follows the MVC architectural pattern for a clean and maintainable codebase. The system includes advanced features like full-text search, data analytics via MongoDB Aggregation, and secure file handling for image uploads, making it a professional and feature-rich backend solution.",
+      "challenge": "The primary challenge was to architect a highly secure and scalable API that could handle various complex queries efficiently. This was addressed by implementing JWT-based authentication, input validation, centralized error handling, and performance optimizations like rate limiting. Another challenge was writing comprehensive automated tests (unit and integration) to ensure the reliability and stability of the API.",
+      "technicalStack": [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JSON Web Token (JWT)",
+        "Bcrypt.js",
+        "Jest",
+        "Supertest",
+        "Multer",
+        "Sharp",
+        "Git",
+        "GitHub",
+        "Render (Deployment)"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Secure Authentication System",
+          "description": "Developed a complete user authentication flow, including user registration, login, and route protection using JWT. Passwords are securely hashed with bcrypt.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1760816378/Screenshot_2025-10-18_223910_qod8t3.png"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Freelance Platform",
+      "shortDescription": "An integrated freelance platform connecting employers and freelancers in a secure environment, managing the full project lifecycle from proposal to payment.",
+      "description": "This project is a comprehensive freelance platform designed to bring together employers and freelancers in a secure and organized environment. The system supports the complete project lifecycle, including registration, application, work submission, delivery, and payment. Modeled after global freelance systems, it focuses on usability, security, and process transparency.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917981/LadingPage_gpvqj5.png",
+      "projectUrl": "https://github.com/aaas72/TrustFlow-Platform",
+      "category": "Web Development",
+      "services": [
+        "Full Stack Development",
+        "UI/UX Design",
+        "Payment System Integration",
+        "Real-time Communication"
+      ],
+      "website": "https://github.com/aaas72/TrustFlow-Platform",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/v1767917981/LadingPage_gpvqj5.png",
+      "overview": "The primary goals of this project are to organize the process between employers and freelancers, protect the financial rights of both parties, make projects trackable by dividing them into milestones, and offer a simple and understandable experience from the very first login. Key features include a Client Panel for posting projects and managing milestones, a Freelancer Panel for submitting proposals and tracking earnings, and an Admin Panel for overall system control.",
+      "challenge": "One of the main challenges was to create a secure and transparent environment for financial transactions and project management. This involved implementing an Escrow-based payment system to protect both parties and a milestone-based tracking system to ensure project progress. Additionally, ensuring real-time communication and a seamless user flow across different user roles (Client, Freelancer, Admin) required a robust architecture.",
+      "technicalStack": [
+        "React",
+        "Vite",
+        "TailwindCSS",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "Socket.io",
+        "Stripe"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Landing Page",
+          "description": "The initial page introducing the platform's general purpose and services.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917981/LadingPage_gpvqj5.png"
+        },
+        {
+          "id": 2,
+          "title": "Registration",
+          "description": "A multi-step registration process where users enter their information securely.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917980/Regester_2Page_ccslf9.png"
+        },
+        {
+          "id": 3,
+          "title": "Login",
+          "description": "Secure login page tailored to user roles.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917973/loginPage_hjx0pi.png"
+        },
+        {
+          "id": 4,
+          "title": "Freelancer Dashboard",
+          "description": "Main control panel for freelancers to view open projects, active jobs, and earnings.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917975/FreelancerDashbord_snc9to.png"
+        },
+        {
+          "id": 5,
+          "title": "Project Application",
+          "description": "Section where freelancers review projects and submit proposals with price and time plans.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917967/projectBa%C5%9Fvur_zgtp2q.png"
+        },
+        {
+          "id": 6,
+          "title": "Proposal Acceptance",
+          "description": "Stage where the client evaluates proposals and accepts the most suitable one.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917967/taklifler_hrs7je.png"
+        },
+        {
+          "id": 7,
+          "title": "Project Planning (Milestones)",
+          "description": "Planning the project by dividing it into milestones with specific timeframes and delivery criteria.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917974/planeekleme_jqlbxp.png"
+        },
+        {
+          "id": 8,
+          "title": "Client Side Planning",
+          "description": "The client's view of the project plan, tracking milestones and progress.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917966/musteri_tarfa_plan_rwydbk.png"
+        },
+        {
+          "id": 9,
+          "title": "Work & Delivery",
+          "description": "Stage where the freelancer uploads work and the client approves it.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917966/AsamaTeslim_t7nube.png"
+        },
+        {
+          "id": 10,
+          "title": "Secure Payment (Escrow)",
+          "description": "Secure release of payments after milestones are successfully completed.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/v1767917966/Odeme_zopah5.png"
+        }
+      ],
+      "evaluation": "This project is a comprehensive application that combines software engineering principles, freelance systems, project and payment management, and secure financial processes. The platform can be expanded in future stages with a user rating system, dispute resolution management, multi-currency support, and advanced administrative privileges."
+    }
+  ]
+}
