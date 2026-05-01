@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import BlogCard from "../Cards/BlogCard";
 import Seo from "../Seo";
+import { Link } from "react-router-dom";
+import Loading from "../Loading";
 
 interface BlogPageProps {
   blogId?: string;
@@ -54,11 +56,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
     fetchBlog();
   }, [blogId]);
 
-  if (loading) return (
-    <div className="container mx-auto px-6 py-32 text-center text-[#C5C5C5]">
-      Loading Article...
-    </div>
-  );
+  if (loading) return <Loading />;
 
   if (!blog) return (
     <div className="container mx-auto px-6 py-32 text-center">

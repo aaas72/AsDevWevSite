@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "../Cards/BlogCard";
 import { supabase } from "../../lib/supabase";
+import Loading from "../Loading";
 
 interface Blog {
   id: string;
@@ -35,7 +36,7 @@ const AllBlogs: React.FC = () => {
     <section className="relative w-full py-16">
       <div className="container mx-auto px-6">
         {loading ? (
-          <div className="text-center py-12 text-[#C5C5C5]">Retrieving articles...</div>
+          <Loading />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog) => (

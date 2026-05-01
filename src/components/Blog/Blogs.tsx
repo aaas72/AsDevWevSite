@@ -3,6 +3,7 @@ import Button from "../Button";
 import BlogCard from "../Cards/BlogCard";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import Loading from "../Loading";
 
 interface Blog {
   id: string;
@@ -44,7 +45,7 @@ const Blogs: React.FC = () => {
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-[#1E1E1E]">Loading blogs...</div>
+          <Loading />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {blogs.map((post) => (

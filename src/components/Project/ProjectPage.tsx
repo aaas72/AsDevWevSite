@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiChevronDown } from "react-icons/fi";
+import Loading from "../Loading";
 
 interface ProjectPageProps {
   projectId?: string;
@@ -57,11 +58,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
     }
   };
 
-  if (loading) return (
-    <div className="container mx-auto px-6 py-16 text-center text-[#C5C5C5]">
-      Loading...
-    </div>
-  );
+  if (loading) return <Loading />;
 
   if (!project) {
     return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProjectCard from "../Cards/ProjectCard";
 import { supabase } from "../../lib/supabase";
+import Loading from "../Loading";
 
 interface Project {
   id: string;
@@ -34,7 +35,7 @@ const AllProjects: React.FC = () => {
     <section className="relative w-full py-16">
       <div className="container mx-auto px-6">
         {loading ? (
-          <div className="text-center py-12 text-[#C5C5C5]">Synchronizing portfolio...</div>
+          <Loading />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projects.map((project) => (

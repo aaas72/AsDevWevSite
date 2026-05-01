@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import Loading from "./Loading";
 
 interface Tool {
   id: string;
@@ -43,7 +44,7 @@ const Tools: React.FC<ToolsProps> = ({ bgColor }) => {
           My Tools
         </h3>
         {loading ? (
-          <div className="text-[#C5C5C5]">Loading tools...</div>
+          <Loading />
         ) : (
           <div className="tools-flex w-full flex flex-wrap justify-center items-center gap-12 py-4">
             {tools.map((tool) => (
