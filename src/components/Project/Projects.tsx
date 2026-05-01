@@ -3,6 +3,7 @@ import ProjectCard from "../Cards/ProjectCard";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import Loading from "../Loading";
 
 interface Project {
   id: string;
@@ -32,6 +33,8 @@ const Projects: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <section className="relative w-full py-16">

@@ -14,7 +14,7 @@ import { supabase } from "../../lib/supabase";
 const AdminLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [, setScrollPosition] = useState(0);
   const [prevScrollPosition, setPrevScrollPosition] = useState(0);
   const [scrollDirection, setScrollDirection] = useState("up");
 

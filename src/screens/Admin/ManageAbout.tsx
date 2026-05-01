@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiSave, FiUploadCloud, FiUser, FiGithub, FiLinkedin, FiMail, FiPhone } from "react-icons/fi";
 import Button from "../../components/Button";
+import Loading from "../../components/Loading";
 
 const ManageAbout: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ const ManageAbout: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-24 text-[#919191] animate-pulse tracking-widest text-xs uppercase">Connecting to Persona...</div>;
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-12 pb-24">

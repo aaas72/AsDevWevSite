@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
-import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiImage } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
 import Button from "../../components/Button";
 
 interface Blog {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { FiGithub, FiLinkedin, FiMail, FiPhone, FiGlobe } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiMail, FiPhone } from "react-icons/fi";
+import Loading from "./Loading";
 
 const AboutMe: React.FC = () => {
   const [content, setContent] = useState<any>(null);
@@ -23,11 +24,7 @@ const AboutMe: React.FC = () => {
     fetchContent();
   }, []);
 
-  if (loading) return (
-    <div className="w-full py-32 bg-white text-center text-gray-400 animate-pulse tracking-widest text-xs uppercase">
-      Synchronizing Persona...
-    </div>
-  );
+  if (loading) return <Loading />;
 
   const display = content || {
     profile_image: "https://res.cloudinary.com/asdev1/image/upload/v1759454562/myPhoto_jrnt8n.png",

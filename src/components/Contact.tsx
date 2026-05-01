@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ConsultationForm from "./ConsultationForm";
-import { FiChevronDown, FiChevronUp, FiSend, FiCheckCircle } from "react-icons/fi";
+import { FiChevronDown, FiSend } from "react-icons/fi";
 import { supabase } from "../lib/supabase";
 import Button from "./Button";
 

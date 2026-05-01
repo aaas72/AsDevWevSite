@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
-import { FiMail, FiTrash2, FiClock, FiUser, FiCheckCircle, FiInbox } from "react-icons/fi";
+import { FiMail, FiTrash2, FiClock, FiUser, FiInbox } from "react-icons/fi";
+import Loading from "../../components/Loading";
 
 interface Message {
   id: number;
@@ -61,7 +62,7 @@ const ManageMessages: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-24 text-[#919191] animate-pulse tracking-widest text-xs uppercase font-bold">Opening Inbox...</div>;
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
