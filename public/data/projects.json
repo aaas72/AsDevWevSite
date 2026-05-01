@@ -279,6 +279,71 @@
         }
       ],
       "evaluation": "This project is a comprehensive application that combines software engineering principles, freelance systems, project and payment management, and secure financial processes. The platform can be expanded in future stages with a user rating system, dispute resolution management, multi-currency support, and advanced administrative privileges."
+    },
+    {
+      "id": 7,
+      "title": "YOD Elazig Official Portal",
+      "shortDescription": "A dynamic community portal for the Yemeni Students Union in Elazig, featuring news, events, academic guides, and a volunteer registration system.",
+      "description": "This project serves as the official digital presence for the Yemeni Students Union in Elazig. It is a comprehensive platform designed to unify student efforts, document activities, and provide essential resources. The website includes dynamic sections for latest news, event galleries, educational programs, and practical guides for navigating life in Elazig and at Firat University.",
+      "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776277864/www.yodelazig.org_tr_7_mwr46l.png",
+      "projectUrl": "https://www.yodelazig.org/ar",
+      "category": "Web Development",
+      "services": [
+        "Full Stack Development",
+        "UI/UX Design",
+        "Content Management",
+        "Responsive Web Design"
+      ],
+      "website": "https://www.yodelazig.org/ar",
+      "coverImage": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776277864/www.yodelazig.org_tr_7_mwr46l.png",
+      "overview": "The primary goal of this project is to create a centralized, digital hub for Yemeni students residing in Elazig. It facilitates effective communication, highlights the union's achievements, and encourages community engagement through a dedicated volunteer portal. The platform is structured to offer a seamless user experience, making it easy for students to access important university guides, residency documentation steps, and stay updated with upcoming community events.",
+      "challenge": "A key challenge was structuring a large amount of diverse informational content—ranging from news and events to static academic guides—into an intuitive, easy-to-navigate interface. Ensuring the platform was highly responsive, fast-loading, and culturally representative was critical. Additionally, implementing a scalable architecture using modern web technologies was necessary to accommodate the union's growing digital footprint and future content updates.",
+      "technicalStack": [
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "Node.js",
+        "REST APIs"
+      ],
+      "results": [
+        {
+          "id": 1,
+          "title": "Home",
+          "description": "A dynamic landing page showcasing the union's latest news, upcoming activities, core programs, and real-time statistics regarding student impact.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776277132/www.yodelazig.org_tr_tk3byf.png"
+        },
+        {
+          "id": 2,
+          "title": "About Us",
+          "description": "Details the mission, vision, and core values of the union, along with an overview of its organizational structure.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776276800/www.yodelazig.org_tr_1_kbgpab.png"
+        },
+        {
+          "id": 3,
+          "title": "News Feed",
+          "description": "A dedicated, frequently updated feed publishing the latest announcements, press releases, and community achievements.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776277864/www.yodelazig.org_tr_7_mwr46l.png"
+        },
+        {
+          "id": 4,
+          "title": "Student Guide & FAQ",
+          "description": "A comprehensive resource hub answering frequently asked questions about residency procedures, academic steps, and essential student services.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776276790/www.yodelazig.org_tr_5_tbbhpu.png"
+        },
+        {
+          "id": 5,
+          "title": "City & University Guides",
+          "description": "Comprehensive overviews providing practical information about living in Elazig and navigating academic life at Firat University.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776277135/www.yodelazig.org_tr_2_ncsidt.png"
+        },
+        {
+          "id": 6,
+          "title": "Volunteer Portal",
+          "description": "A registration system allowing students to sign up, join specialized committees, and participate in community service initiatives.",
+          "imageUrl": "https://res.cloudinary.com/asdev1/image/upload/q_auto/f_auto/v1776276792/www.yodelazig.org_tr_6_hmvm8q.png"
+        }
+      ],
+      "evaluation": "This project successfully delivers a robust, modern digital platform that strengthens the Yemeni student community in Elazig. It demonstrates strong proficiency in modern frontend frameworks (Next.js/React), component reusability, and building scalable, community-focused web applications."
     }
   ]
 }

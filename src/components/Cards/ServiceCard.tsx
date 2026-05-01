@@ -13,7 +13,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
 }) => {
   return (
-    <div className=" p-6 rounded-lg border border-[#333333] flex flex-col h-full">
+    <div className=" p-8 rounded-[2.5rem] border border-white/15 hover:border-white/30 transition-all duration-500 flex flex-col h-full bg-[#171717]">
       <div className="mb-4">
         <span className="text-lg font-medium text-[#C5C5C5]">{id}</span>
       </div>

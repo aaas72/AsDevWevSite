@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ConsultationForm from "./ConsultationForm";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FiChevronDown, FiChevronUp, FiSend, FiCheckCircle } from "react-icons/fi";
+import { supabase } from "../lib/supabase";
+import Button from "./Button";
 
 interface FAQ {
   id: number;
@@ -10,6 +12,10 @@ interface FAQ {
 
 const Contact: React.FC = () => {
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const faqs: FAQ[] = [
     {
@@ -33,76 +39,163 @@ const Contact: React.FC = () => {
     setOpenFaqId(openFaqId === id ? null : id);
   };
 
+  const validateEmail = (email: string) => {
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regex.test(String(email).toLowerCase())) return false;
+
+    const [localPart, domain] = email.toLowerCase().split("@");
+    
+    // 1. Block common fake domains
+    const fakeDomains = ["test.com", "example.com", "abc.com", "xyz.com", "mailinator.com", "tempmail.com"];
+    if (fakeDomains.includes(domain)) return false;
+
+    // 2. Detect Keyboard Mash (asdf, qwerty, zxcv, etc.)
+    const mashPatterns = ["asdf", "sdfg", "dfgh", "ghjk", "jkl", "qwer", "wert", "erty", "rtyu", "tyui", "zxcv", "xcvb"];
+    if (mashPatterns.some(p => localPart.includes(p))) return false;
+
+    // 3. Detect repetitive characters (aaaa, 1111, etc.)
+    if (/(.)\1{3,}/.test(localPart)) return false;
+
+    // 4. Sanity check: length and vowels (prevent strings like "ghjkpt")
+    if (localPart.length > 5 && !/[aeiouy0-9]/.test(localPart)) return false;
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateEmail(formData.email)) {
+      setError("Please enter a valid and active email address.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const { error: submitError } = await supabase
+      .from("contact_messages")
+      .insert([formData]);
+
+    if (submitError) {
+      setError(submitError.message);
+    } else {
+      setSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+    }
+    setLoading(false);
+  };
+
+  const inputClasses = "w-full px-6 py-4 bg-[#F9F9F9] border border-transparent rounded-2xl focus:bg-white focus:border-black outline-none transition-all duration-300 text-[#1A1A1A] text-sm placeholder:text-gray-300 font-medium";
+  const labelClasses = "block text-[10px] uppercase tracking-[0.3em] font-bold text-[#919191] mb-2 ml-1";
+
   return (
     <section className="relative w-full py-8 sm:py-12 md:py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl font-medium text-[#1E1E1E] mb-2 sm:mb-0">Let's Talk</h2>
-          <span className="text-sm sm:text-base text-[#1E1E1E]">CONTACT</span>
+          <h2 className="text-4xl font-bold tracking-tighter text-[#1E1E1E] mb-2 sm:mb-0">Let's Talk</h2>
+          <span className="text-[10px] font-bold tracking-[0.4em] text-[#919191] uppercase">CONTACT</span>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           <div>
             <div className="mb-8 sm:mb-12">
-              <h3 className="text-xl sm:text-2xl font-medium text-[#333333] mb-4 sm:mb-6">It's All Starts With Hello..</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] mb-8 tracking-tight">It's All Starts With Hello..</h3>
               
-              <form className="space-y-4 sm:space-y-6">
-                <div>
-                  <label htmlFor="contactName" className="block text-sm text-[#555555] mb-2">Name</label>
-                  <input 
-                    type="text" 
-                    id="contactName" 
-                    placeholder="Enter Your Name" 
-                    className="w-full p-2 sm:p-3 bg-transparent border border-[#CCCCCC] rounded-md text-[#555555] focus:outline-none focus:ring-1 focus:ring-[#333333]"
-                  />
+              {submitted ? (
+                <div className="py-20 border-t border-b border-gray-100 space-y-6 animate-in fade-in slide-in-from-left-4 duration-700">
+                  <div className="space-y-2">
+                    <h4 className="text-3xl font-bold text-[#1A1A1A] tracking-tighter uppercase">Message Received</h4>
+                    <p className="text-[#666] text-lg font-medium">Your inquiry has been successfully logged. I will be in touch shortly.</p>
+                  </div>
+                  <button 
+                    onClick={() => setSubmitted(false)}
+                    className="text-[10px] font-bold text-[#1A1A1A] uppercase tracking-[0.3em] border-b border-black pb-1 hover:text-[#919191] hover:border-[#919191] transition-all"
+                  >
+                    Send Another Inquiry
+                  </button>
                 </div>
-                
-                <div>
-                  <label htmlFor="contactEmail" className="block text-sm text-[#555555] mb-2">Email</label>
-                  <input 
-                    type="email" 
-                    id="contactEmail" 
-                    placeholder="Enter Your Email" 
-                    className="w-full p-2 sm:p-3 bg-transparent border border-[#CCCCCC] rounded-md text-[#555555] focus:outline-none focus:ring-1 focus:ring-[#333333]"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="contactMessage" className="block text-sm text-[#555555] mb-2">Message</label>
-                  <textarea 
-                    id="contactMessage" 
-                    placeholder="Enter Your Message" 
-                    rows={4}
-                    className="w-full p-2 sm:p-3 bg-transparent border border-[#CCCCCC] rounded-md text-[#555555] focus:outline-none focus:ring-1 focus:ring-[#333333]"
-                  ></textarea>
-                </div>
-              </form>
+              ) : (
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div className="space-y-2">
+                    <label htmlFor="contactName" className={labelClasses}>Full Name</label>
+                    <input 
+                      type="text" 
+                      id="contactName" 
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      placeholder="e.g. John Doe" 
+                      className={inputClasses}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="contactEmail" className={labelClasses}>Email Address</label>
+                    <input 
+                      type="email" 
+                      id="contactEmail" 
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      placeholder="hello@example.com" 
+                      className={inputClasses}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="contactMessage" className={labelClasses}>Your Message</label>
+                    <textarea 
+                      id="contactMessage" 
+                      required
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      placeholder="How can I help you?" 
+                      rows={5}
+                      className={`${inputClasses} resize-none`}
+                    ></textarea>
+                  </div>
+
+                  {error && <p className="text-red-500 text-xs font-bold uppercase tracking-widest">{error}</p>}
+
+                  <Button 
+                    type="submit"
+                    disabled={loading}
+                    variant="outline"
+                    size="lg"
+                    className="w-fit gap-3 text-black border-black hover:bg-black hover:text-white text-[10px] uppercase tracking-[0.3em]"
+                  >
+                    {loading ? "Sending..." : "Send Message"} <FiSend className="transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </form>
+              )}
             </div>
           </div>
           
           <div>
-            <div className="p-4 sm:p-6 md:p-8 rounded-lg bg-[#FAFAFA] shadow-sm">
-              <h3 className="text-xl sm:text-2xl font-medium text-[#1E1E1E] mb-3 sm:mb-6">Frequently Asked Questions</h3>
-              <p className="text-[#919191] mb-3 sm:mb-4 text-xs sm:text-sm">
-                Here Are The Answers To The Most Common Questions
+            <div className="p-10 rounded-[2.5rem] bg-[#F9F9F9] border border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#1E1E1E] mb-2 tracking-tight">Frequently Asked Questions</h3>
+              <p className="text-[#919191] mb-10 text-sm font-medium">
+                Common inquiries regarding my process and services.
               </p>
               
-              <div className="space-y-4 sm:space-y-6 mt-4 sm:mt-8">
+              <div className="space-y-2">
                 {faqs.map((faq) => (
-                  <div key={faq.id} className="border-b border-[#DDDDDD] pb-3 sm:pb-4">
+                  <div key={faq.id} className="group">
                     <div 
-                      className="flex justify-between items-center cursor-pointer py-2" 
+                      className={`flex justify-between items-center cursor-pointer p-6 rounded-2xl transition-all duration-300 ${
+                        openFaqId === faq.id ? "bg-white shadow-sm" : "hover:bg-white/50"
+                      }`} 
                       onClick={() => toggleFaq(faq.id)}
                     >
-                      <h4 className="text-base sm:text-lg font-medium text-[#1E1E1E] pr-4">{faq.question}</h4>
-                      {openFaqId === faq.id ? 
-                        <FaChevronUp className="text-[#1E1E1E] flex-shrink-0" /> : 
-                        <FaChevronDown className="text-[#1E1E1E] flex-shrink-0" />
-                      }
+                      <h4 className="text-base font-bold text-[#1E1E1E] pr-4 tracking-tight">{faq.question}</h4>
+                      <div className={`transition-transform duration-300 ${openFaqId === faq.id ? "rotate-180" : ""}`}>
+                         <FiChevronDown className="text-[#1E1E1E]" />
+                      </div>
                     </div>
                     {openFaqId === faq.id && (
-                      <div className="overflow-hidden transition-all duration-300 ease-in-out">
-                        <p className="text-xs sm:text-sm text-[#A0A0A0] mt-2 mb-3 leading-relaxed">
+                      <div className="px-6 pb-6 pt-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <p className="text-sm text-[#666] leading-relaxed font-medium">
                           {faq.answer}
                         </p>
                       </div>
@@ -114,7 +207,7 @@ const Contact: React.FC = () => {
           </div>
         </div>
         
-        <div className="mt-10 sm:mt-16">
+        <div className="mt-16">
           <ConsultationForm />
         </div>
       </div>

@@ -1,155 +1,165 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { FiGithub, FiLinkedin, FiMail, FiPhone, FiGlobe } from "react-icons/fi";
 
 const AboutMe: React.FC = () => {
+  const [content, setContent] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      const { data, error } = await supabase
+        .from("about_content")
+        .select("*")
+        .eq("id", 1)
+        .single();
+      
+      if (!error && data) {
+        setContent(data);
+      }
+      setLoading(false);
+    };
+
+    fetchContent();
+  }, []);
+
+  if (loading) return (
+    <div className="w-full py-32 bg-white text-center text-gray-400 animate-pulse tracking-widest text-xs uppercase">
+      Synchronizing Persona...
+    </div>
+  );
+
+  const display = content || {
+    profile_image: "https://res.cloudinary.com/asdev1/image/upload/v1759454562/myPhoto_jrnt8n.png",
+    headline: "Transforming Ambitious Ideas into High-Impact Digital Products",
+    sub_headline: "I'm a software developer dedicated to building modern web solutions and forging long-term partnerships with businesses ready to innovate and grow.",
+    who_i_am_1: "Driven by a deep passion for technology and a commitment to continuous learning, my mission is to help startups and established businesses thrive in the digital landscape.",
+    who_i_am_2: "I don't just build applications; I build solutions that solve real-world problems and create tangible value for your business.",
+    approach_1_title: "1. Partnership Over Projects",
+    approach_1_text: "I believe the best results come from true collaboration. My goal is to become more than just a developer for you; I aim to be a dedicated technical partner.",
+    approach_2_title: "2. Communication & Transparency",
+    approach_2_text: "Clear, consistent communication is the backbone of any successful project. You will be kept in the loop at every stage.",
+    approach_3_title: "3. Quality & Excellence",
+    approach_3_text: "I am committed to the highest standards of quality. This means writing clean, maintainable, and scalable code.",
+    expertise_text: "I specialize in a modern tech stack designed for performance and scalability.",
+    cta_text_1: "I'm currently available for new projects and collaborations.",
+    cta_text_2: "Let's connect and discuss how we can bring your vision to life."
+  };
+
+  const contactLinks = [
+    { icon: <FiGithub />, label: "GitHub", url: display.github_url || "#", value: display.github_url ? display.github_url.split("/").pop() : "GitHub" },
+    { icon: <FiLinkedin />, label: "LinkedIn", url: display.linkedin_url || "#", value: display.linkedin_url ? "LinkedIn Profile" : "LinkedIn" },
+    { icon: <FiMail />, label: "Email", url: `mailto:${display.email}`, value: display.email || "Email" },
+    { icon: <FiPhone />, label: "Phone", url: `tel:${display.phone}`, value: display.phone || "Phone" },
+  ];
+
   return (
-    <section className="w-full py-8 sm:py-12 md:py-16 bg-white">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[35%_auto] items-start gap-6 sm:gap-8 md:gap-10 lg:gap-12">
-          {/* Profile Image */}
-          <div className="w-full max-w-md mx-auto md:mx-0">
-            <div className="rounded-4xl overflow-hidden shadow-md">
+    <section className="w-full py-24 bg-white">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+          
+          {/* Profile Image Column */}
+          <div className="w-full lg:w-1/3 space-y-10">
+            <div className="rounded-[2.5rem] overflow-hidden">
               <img
-                src="https://res.cloudinary.com/asdev1/image/upload/v1759454562/myPhoto_jrnt8n.png"
+                src={display.profile_image}
                 alt="Profile"
-                className="w-full h-auto"
+                className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700"
               />
+            </div>
+
+            {/* Social & Contact Links */}
+            <div className="space-y-4 pt-6">
+              <h3 className="text-[10px] font-bold text-[#919191] uppercase tracking-[0.4em] mb-6">Connect</h3>
+              <div className="flex flex-col">
+                {contactLinks.map((link, index) => (
+                  <a 
+                    key={index} 
+                    href={link.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-5 group py-4 transition-all duration-300 ${
+                      index !== contactLinks.length - 1 ? "border-b border-gray-100" : ""
+                    }`}
+                  >
+                    <div className="text-xl text-[#919191] group-hover:text-black group-hover:scale-110 transition-all duration-300">
+                      {link.icon}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-[#C5C5C5] uppercase tracking-widest">{link.label}</span>
+                      <span className="text-sm text-[#919191] group-hover:text-black font-medium transition-colors duration-300">{link.value}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Content */}
-          <div className="w-full text-[#474747] mt-6 md:mt-0">
-            <div className="space-y-6 sm:space-y-8">
-              {/* Headline */}
-              <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1E1E1E]">
-                  Transforming Ambitious Ideas into High-Impact Digital Products
+          {/* CV Content Column */}
+          <div className="w-full lg:w-2/3 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-16 pt-12 lg:pt-0">
+            <div className="max-w-3xl space-y-20">
+              
+              {/* Header / Summary */}
+              <header className="space-y-6 overflow-hidden">
+                <h1 className="text-4xl md:text-5xl font-bold text-[#1A1A1A] leading-[1.1] break-words">
+                  {display.headline}
+                </h1>
+                <p className="text-xl text-[#666] leading-relaxed italic break-words">
+                  {display.sub_headline}
+                </p>
+              </header>
+
+              {/* Section: Professional Profile */}
+              <section className="space-y-6 overflow-hidden">
+                <h2 className="text-[10px] font-bold text-[#919191] uppercase tracking-[0.4em] border-b border-gray-100 pb-4">
+                  01. Professional Profile
                 </h2>
-                <p className="mt-3 text-sm sm:text-base md:text-lg">
-                  I'm a software developer dedicated to building modern web
-                  solutions and forging long-term partnerships with businesses
-                  ready to innovate and grow.
-                </p>
-              </div>
-
-              {/* Who I Am */}
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-[#1E1E1E]">
-                  Who I Am
-                </h3>
-                <div className="mt-3 space-y-4">
-                  <p className="text-base sm:text-lg">
-                    Driven by a deep passion for technology and a commitment to
-                    continuous learning, my mission is to help startups and
-                    established businesses thrive in the digital landscape. For
-                    me, software development is more than just writing code—it's
-                    a craft that blends creative problem-solving with technical
-                    excellence to build elegant, functional, and user-centric
-                    experiences.
-                  </p>
-                  <p className="text-base sm:text-lg">
-                    I don't just build applications; I build solutions that
-                    solve real-world problems, create tangible value for your
-                    business, and provide an exceptional user experience for
-                    your customers.
-                  </p>
+                <div className="text-lg text-[#474747] leading-relaxed space-y-4 break-words">
+                  <p>{display.who_i_am_1}</p>
+                  <p>{display.who_i_am_2}</p>
                 </div>
-              </div>
+              </section>
 
-              {/* My Approach */}
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-[#1E1E1E]">
-                  My Approach
-                </h3>
-                <div className="mt-3 space-y-6">
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-medium text-[#1E1E1E]">
-                      1. Partnership Over Projects
-                    </h4>
-                    <p className="mt-2 text-base sm:text-lg">
-                      I believe the best results come from true collaboration.
-                      My goal is to become more than just a developer for you; I
-                      aim to be a dedicated technical partner. I take the time
-                      to deeply understand your business, your market, and your
-                      vision to ensure that every technical decision aligns with
-                      your long-term goals. Your success is my success.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-medium text-[#1E1E1E]">
-                      2. Communication & Transparency
-                    </h4>
-                    <p className="mt-2 text-base sm:text-lg">
-                      Clear, consistent communication is the backbone of any
-                      successful project. You will be kept in the loop at every
-                      stage of the development process with regular updates and
-                      clear milestones. No surprises, no jargon—just a
-                      transparent process that ensures we are always on the same
-                      page and moving towards the same goal.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-medium text-[#1E1E1E]">
-                      3. Quality & Excellence
-                    </h4>
-                    <p className="mt-2 text-base sm:text-lg">
-                      I am committed to the highest standards of quality. This
-                      means writing clean, maintainable, and scalable code that
-                      not only functions perfectly today but is also built to
-                      adapt and grow in the future. From the user interface to
-                      the backend architecture, I deliver robust solutions that
-                      are built to last.
-                    </p>
+              {/* Section: Technical Expertise */}
+              <section className="space-y-6 overflow-hidden">
+                <h2 className="text-[10px] font-bold text-[#919191] uppercase tracking-[0.4em] border-b border-gray-100 pb-4">
+                  02. Technical Expertise
+                </h2>
+                <div className="space-y-6">
+                  <p className="text-[#474747] leading-relaxed break-words">{display.expertise_text}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {(display.skills ? display.skills.split(",").map((s: string) => s.trim()) : ["React", "Next.js", "Node.js", "TypeScript"]).map((tech: string) => (
+                      <span key={tech} className="px-4 py-1.5 bg-[#F5F5F5] border border-gray-100 rounded-lg text-[10px] font-bold text-[#666] uppercase tracking-widest whitespace-nowrap">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </div>
+              </section>
 
-              {/* Technical Expertise */}
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-[#1E1E1E]">
-                  My Technical Expertise
-                </h3>
-                <p className="mt-3 text-base sm:text-lg">
-                  I specialize in a modern tech stack designed for performance
-                  and scalability. My core areas of expertise include:
-                </p>
-                <ul className="mt-3 list-disc pl-5 space-y-2 text-base sm:text-lg">
-                  <li>
-                    <span className="font-medium">Frontend:</span> React,
-                    Next.js, Vue.js, TypeScript, HTML5, CSS3/Sass
-                  </li>
-                  <li>
-                    <span className="font-medium">Backend:</span> Node.js,
-                    Express, Python (Django/Flask), REST & GraphQL APIs
-                  </li>
-                  <li>
-                    <span className="font-medium">Databases:</span> PostgreSQL,
-                    MongoDB, Firebase
-                  </li>
-                  <li>
-                    <span className="font-medium">Tools & Platforms:</span> Git,
-                    Docker, Vercel, AWS, Stripe API
-                  </li>
-                </ul>
-              </div>
-
-              {/* Call to Action */}
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-[#1E1E1E]">
-                  Have a Project in Mind?
-                </h3>
-                <div className="mt-3 space-y-4">
-                  <p className="text-base sm:text-lg">
-                    I'm currently available for new projects and collaborations.
-                    If you have an idea you're passionate about, a challenge you
-                    need to solve, or a business ready to scale, I would love to
-                    hear about it.
-                  </p>
-                  <p className="text-base sm:text-lg">
-                    Let's connect and discuss how we can bring your vision to
-                    life.
-                  </p>
+              {/* Section: Methodology */}
+              <section className="space-y-6 overflow-hidden">
+                <h2 className="text-[10px] font-bold text-[#919191] uppercase tracking-[0.4em] border-b border-gray-100 pb-4">
+                  03. Methodology & Approach
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="space-y-2 overflow-hidden">
+                      <h4 className="text-base font-bold text-[#1A1A1A] break-words">{display[`approach_${i}_title`]}</h4>
+                      <p className="text-sm text-[#666] leading-relaxed break-words">{display[`approach_${i}_text`]}</p>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              </section>
+
+              {/* Section: Connect */}
+              <footer className="pt-12 border-t border-gray-100 overflow-hidden">
+                <div className="space-y-1 break-words max-w-full">
+                  <p className="text-sm font-bold text-[#1A1A1A]">{display.cta_text_1}</p>
+                  <p className="text-[#666]">{display.cta_text_2}</p>
+                </div>
+              </footer>
+
             </div>
           </div>
         </div>

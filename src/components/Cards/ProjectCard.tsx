@@ -3,7 +3,7 @@ import Button from "../Button";
 import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
-  id: number;
+  id: string | number;
   title: string;
   description: string;
   imageUrl: string;
@@ -18,7 +18,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Link to={`/project/${id}`} className="block">
-      <div className="project-card relative overflow-hidden rounded-lg group cursor-pointer">
+      <div className="project-card relative overflow-hidden rounded-[2.5rem] group cursor-pointer border border-white/15 hover:border-white/30 transition-all duration-500">
         <div className="project-image relative h-[350px] overflow-hidden">
           <img
             src={imageUrl}

@@ -1,23 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProjectCard from "../Cards/ProjectCard";
-import projectsData from "../../../public/data/projects.json";
+import { supabase } from "../../lib/supabase";
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  project_url: string;
+}
 
 const AllProjects: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .order("created_at", { ascending: false });
+      
+      if (!error && data) {
+        setProjects(data);
+      }
+      setLoading(false);
+    };
+
+    fetchProjects();
+  }, []);
+
   return (
     <section className="relative w-full py-16">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {projectsData.projects.slice().reverse().map((project) => (
-            <ProjectCard
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              description={project.description}
-              imageUrl={project.imageUrl}
-              projectUrl={project.projectUrl}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12 text-[#C5C5C5]">Synchronizing portfolio...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                id={project.id}
+                title={project.title}
+                description={project.description}
+                imageUrl={project.image_url}
+                projectUrl={project.project_url}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

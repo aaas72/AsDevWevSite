@@ -1,11 +1,9 @@
 import React from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: "primary" | "outline";
   size?: "sm" | "md" | "lg";
-  className?: string;
-  onClick?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,9 +11,9 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "md",
   className = "",
-  onClick,
+  ...props
 }) => {
-  const baseClasses = "font-medium rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F46E5]";
+  const baseClasses = "font-medium rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F46E5] disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variantClasses = {
     primary: "bg-[#C5C5C5] text-black hover:bg-white",
@@ -31,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </button>
