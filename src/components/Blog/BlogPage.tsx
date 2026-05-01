@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import BlogCard from "../Cards/BlogCard";
 import Seo from "../Seo";
-import { Link } from "react-router-dom";
 import Loading from "../Loading";
 
 interface BlogPageProps {
