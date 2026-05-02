@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
 import Button from "../../components/Button";
+import RichTextEditor from "../../components/RichTextEditor";
 
 interface Blog {
   id: string;
@@ -104,6 +105,21 @@ const ManageBlogs: React.FC = () => {
       const { error } = await supabase.from("blogs").delete().eq("id", id);
       if (!error) fetchBlogs();
     }
+  };
+
+  const handleEditorImageUpload = async (file: File): Promise<string> => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `blogs/editor/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("images")
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+    return data.publicUrl;
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: "image_url" | "cover_image") => {
@@ -266,13 +282,12 @@ const ManageBlogs: React.FC = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Content (HTML Supported)</label>
-                <textarea
-                  rows={12}
+                <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Content (Rich Text Editor)</label>
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:ring-1 focus:ring-[#C5C5C5]/20 outline-none transition-all duration-300 text-[#C5C5C5] font-mono text-sm leading-relaxed"
-                  placeholder="<p>Write your article here...</p>"
+                  onChange={(content) => setFormData({ ...formData, content })}
+                  placeholder="Write your article here..."
+                  onImageUpload={handleEditorImageUpload}
                 />
               </div>
 

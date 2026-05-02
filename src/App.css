@@ -169,3 +169,82 @@ body {
   border-radius: 8px;
   z-index: 1000;
 }
+
+/* Quill Editor Dark Theme Overrides */
+.custom-quill-editor {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 1.25rem !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.custom-quill-editor:focus-within {
+  box-shadow: 0 0 0 1px rgba(197, 197, 197, 0.2);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.custom-quill-editor .ql-toolbar.ql-snow {
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  padding: 0.75rem 1.25rem !important;
+}
+
+.custom-quill-editor .ql-container.ql-snow {
+  border: none !important;
+  color: var(--color-primary) !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+}
+
+.custom-quill-editor .ql-editor {
+  padding: 1.5rem !important;
+  min-height: 400px;
+  line-height: 1.75 !important;
+}
+
+.custom-quill-editor .ql-editor.ql-blank::before {
+  color: var(--color-primary-darker) !important;
+  left: 1.5rem !important;
+  opacity: 0.4;
+  font-style: normal !important;
+}
+
+.custom-quill-editor .ql-snow .ql-stroke {
+  stroke: var(--color-primary-darker) !important;
+}
+
+.custom-quill-editor .ql-snow .ql-fill {
+  fill: var(--color-primary-darker) !important;
+}
+
+.custom-quill-editor .ql-snow .ql-picker {
+  color: var(--color-primary) !important;
+}
+
+.custom-quill-editor .ql-snow.ql-toolbar button:hover .ql-stroke,
+.custom-quill-editor .ql-snow.ql-toolbar button.ql-active .ql-stroke {
+  stroke: #ffffff !important;
+}
+
+.custom-quill-editor .ql-snow.ql-toolbar button:hover .ql-fill,
+.custom-quill-editor .ql-snow.ql-toolbar button.ql-active .ql-fill {
+  fill: #ffffff !important;
+}
+
+.custom-quill-editor .ql-snow .ql-picker-options {
+  background-color: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 8px !important;
+  border-radius: 8px !important;
+}
+
+.custom-quill-editor .ql-snow .ql-picker-item {
+  color: var(--color-primary-darker) !important;
+}
+
+.custom-quill-editor .ql-snow .ql-picker-item:hover,
+.custom-quill-editor .ql-snow .ql-picker-item.ql-selected {
+  color: white !important;
+}

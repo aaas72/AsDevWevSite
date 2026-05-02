@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiExternalLink, FiImage } from "react-icons/fi";
 import Button from "../../components/Button";
+import RichTextEditor from "../../components/RichTextEditor";
 
 interface Result {
   title: string;
@@ -126,6 +127,21 @@ const ManageProjects: React.FC = () => {
       const { error } = await supabase.from("projects").delete().eq("id", id);
       if (!error) fetchProjects();
     }
+  };
+
+  const handleEditorImageUpload = async (file: File): Promise<string> => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `projects/editor/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("images")
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+    return data.publicUrl;
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string, resultIndex?: number) => {
@@ -277,25 +293,23 @@ const ManageProjects: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-10">
+              <div className="grid grid-cols-1 gap-10">
                 <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Project Overview</label>
-                  <textarea
-                    rows={4}
+                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Project Overview (Rich Text)</label>
+                  <RichTextEditor
                     value={formData.overview}
-                    onChange={(e) => setFormData({ ...formData, overview: e.target.value })}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:ring-1 focus:ring-[#C5C5C5]/20 outline-none transition-all duration-300 text-[#C5C5C5]"
-                    placeholder="Deep dive into the project goals"
+                    onChange={(content) => setFormData({ ...formData, overview: content })}
+                    placeholder="Deep dive into the project goals..."
+                    onImageUpload={handleEditorImageUpload}
                   />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">The Challenge</label>
-                  <textarea
-                    rows={4}
+                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">The Challenge (Rich Text)</label>
+                  <RichTextEditor
                     value={formData.challenge}
-                    onChange={(e) => setFormData({ ...formData, challenge: e.target.value })}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:ring-1 focus:ring-[#C5C5C5]/20 outline-none transition-all duration-300 text-[#C5C5C5]"
+                    onChange={(content) => setFormData({ ...formData, challenge: content })}
                     placeholder="What problems were solved?"
+                    onImageUpload={handleEditorImageUpload}
                   />
                 </div>
               </div>
