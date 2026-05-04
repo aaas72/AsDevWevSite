@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 
@@ -16,14 +16,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imageUrl,
 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <Link to={`/project/${id}`} className="block">
       <div className="project-card relative overflow-hidden rounded-[2.5rem] group cursor-pointer border border-white/15 hover:border-white/30 transition-all duration-500">
         <div className="project-image relative h-[350px] overflow-hidden">
+          {!imageLoaded && (
+            <div className="absolute inset-0 skeleton-loader z-10"></div>
+          )}
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-130"
+            onLoad={() => setImageLoaded(true)}
+            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-130 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#1E1E1E] opacity-50 group-hover:opacity-100 backdrop-filter transition-all duration-300"></div>
         </div>

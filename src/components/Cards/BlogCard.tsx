@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 
@@ -12,16 +12,24 @@ interface BlogCardProps {
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({ id, title, shortDescription, category, date, imageUrl }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <Link to={`/blog/${id}`} className="group">
       <div className="bg-[#1A1A1A]/40 rounded-[2.5rem] overflow-hidden h-[450px] flex flex-col transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/15 hover:border-white/30 backdrop-blur-sm">
 
         {/* Image Container - 65% Height */}
         <div className="h-[65%] relative overflow-hidden bg-black/20">
+          {!imageLoaded && (
+            <div className="absolute inset-0 skeleton-loader z-10"></div>
+          )}
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+            onLoad={() => setImageLoaded(true)}
+            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
           />
           {/* Category Tag Overlay */}
           <div className="absolute top-6 left-6">
