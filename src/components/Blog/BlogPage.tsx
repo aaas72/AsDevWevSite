@@ -31,16 +31,16 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
     const fetchBlog = async () => {
       if (!blogId) return;
       setLoading(true);
-      
+
       const { data, error } = await supabase
         .from("blogs")
         .select("*")
         .eq("id", blogId)
         .single();
-      
+
       if (!error && data) {
         setBlog(data);
-        
+
         if (data.related_posts && data.related_posts.length > 0) {
           const { data: related } = await supabase
             .from("blogs")

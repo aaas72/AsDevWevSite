@@ -28,6 +28,7 @@ interface Project {
 const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [openResults, setOpenResults] = useState<number[]>([]);
 
   useEffect(() => {
@@ -69,7 +70,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
   }
 
   return (
-    <div className="project-page">
+    <>
+      {!imageLoaded && <Loading />}
+      <div className={`project-page transition-opacity duration-1000 ${!imageLoaded ? "opacity-0" : "opacity-100"}`}>
       {/* Page header with project information */}
       <div className="project-header py-8">
         <div className="container mx-auto px-6">
@@ -140,6 +143,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             src={project.cover_image || project.image_url}
             alt={`${project.title} Cover`}
             className="w-full h-auto"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(true)}
           />
         </div>
       </div>
@@ -217,6 +222,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 
