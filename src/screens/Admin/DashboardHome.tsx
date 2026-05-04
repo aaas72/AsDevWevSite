@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiBriefcase, FiFileText, FiTool } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const DashboardHome: React.FC = () => {
   const [stats, setStats] = useState({ projects: 0, blogs: 0, tools: 0 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -52,10 +54,16 @@ const DashboardHome: React.FC = () => {
           <p className="text-sm text-[#919191] mt-2 tracking-wide">Ready to showcase a new masterpiece or share your thoughts?</p>
         </div>
         <div className="flex gap-4">
-          <button className="px-8 py-4 bg-[#C5C5C5] text-black rounded-2xl font-bold hover:bg-white transition-all duration-300 text-xs tracking-widest shadow-lg shadow-[#C5C5C5]/5">
+          <button 
+            onClick={() => navigate("/admin/projects?action=new")}
+            className="px-8 py-4 bg-[#C5C5C5] text-black rounded-2xl font-bold hover:bg-white transition-all duration-300 text-xs tracking-widest shadow-lg shadow-[#C5C5C5]/5"
+          >
             NEW PROJECT
           </button>
-          <button className="px-8 py-4 bg-white/5 text-[#C5C5C5] border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300 text-xs tracking-widest">
+          <button 
+            onClick={() => navigate("/admin/blogs?action=new")}
+            className="px-8 py-4 bg-white/5 text-[#C5C5C5] border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300 text-xs tracking-widest"
+          >
             WRITE BLOG
           </button>
         </div>

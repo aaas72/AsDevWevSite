@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 import RichTextEditor from "../../components/RichTextEditor";
 
@@ -20,6 +21,7 @@ interface Blog {
 const ManageBlogs: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [formData, setFormData] = useState({
@@ -37,7 +39,15 @@ const ManageBlogs: React.FC = () => {
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+
+    // Check for "action=new" in URL
+    const params = new URLSearchParams(location.search);
+    if (params.get("action") === "new") {
+      handleOpenModal();
+      // Clean up the URL to prevent re-opening on refresh
+      window.history.replaceState({}, "", window.location.pathname + window.location.hash.split('?')[0]);
+    }
+  }, [location]);
 
   const fetchBlogs = async () => {
     setLoading(true);

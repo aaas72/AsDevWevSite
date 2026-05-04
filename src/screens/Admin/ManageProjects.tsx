@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiExternalLink, FiImage } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 import RichTextEditor from "../../components/RichTextEditor";
 
@@ -30,6 +31,7 @@ interface Project {
 const ManageProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [formData, setFormData] = useState({
@@ -51,7 +53,15 @@ const ManageProjects: React.FC = () => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+    
+    // Check for "action=new" in URL
+    const params = new URLSearchParams(location.search);
+    if (params.get("action") === "new") {
+      handleOpenModal();
+      // Clean up the URL to prevent re-opening on refresh
+      window.history.replaceState({}, "", window.location.pathname + window.location.hash.split('?')[0]);
+    }
+  }, [location]);
 
   const fetchProjects = async () => {
     setLoading(true);
