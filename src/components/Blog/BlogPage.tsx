@@ -95,8 +95,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
         <img
           src={blog.cover_image || blog.image_url}
           alt={blog.title}
-          className="w-full h-auto object-cover"
-          style={{ minHeight: "400px", maxHeight: "80vh" }}
+          className="w-full h-auto"
         />
       </div>
 

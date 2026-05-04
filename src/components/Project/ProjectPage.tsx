@@ -139,8 +139,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
           <img
             src={project.cover_image || project.image_url}
             alt={`${project.title} Cover`}
-            className="w-full h-auto object-cover"
-            style={{ minHeight: "400px", maxHeight: "80vh" }}
+            className="w-full h-auto"
           />
         </div>
       </div>
@@ -150,12 +149,18 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
         <div className="container mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Overview</h2>
-            <p className="text-[#919191] leading-relaxed">{project.overview || project.description}</p>
+            <div 
+              className="project-rich-text text-[#919191] leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: project.overview || project.description }}
+            />
           </div>
 
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
-            <p className="text-[#919191] leading-relaxed">{project.challenge}</p>
+            <div 
+              className="project-rich-text text-[#919191] leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: project.challenge }}
+            />
           </div>
 
           {/* Results Toggle Cards */}

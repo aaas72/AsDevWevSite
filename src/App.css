@@ -248,3 +248,76 @@ body {
 .custom-quill-editor .ql-snow .ql-picker-item.ql-selected {
   color: white !important;
 }
+
+/* Project Rich Text Content Styling */
+.project-rich-text {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary-darker);
+}
+
+.project-rich-text p {
+  margin-bottom: 1.5rem;
+}
+
+.project-rich-text ul, 
+.project-rich-text ol {
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.project-rich-text li {
+  margin-bottom: 0.75rem;
+  position: relative;
+  list-style-type: none; /* We'll use custom bullets for a premium look */
+  padding-left: 1.5rem;
+}
+
+.project-rich-text ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(197, 197, 197, 0.4);
+}
+
+.project-rich-text ol {
+  list-style-type: decimal;
+  padding-left: 2rem;
+}
+
+.project-rich-text ol li {
+  list-style-type: decimal;
+  padding-left: 0.5rem;
+}
+
+.project-rich-text ol li::before {
+  display: none;
+}
+
+.project-rich-text strong, 
+.project-rich-text b {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.project-rich-text a {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.project-rich-text a:hover {
+  text-decoration-color: white;
+}
+
+/* Response for small screens */
+@media (max-width: 768px) {
+  .project-rich-text {
+    font-size: var(--font-size-base);
+  }
+}
