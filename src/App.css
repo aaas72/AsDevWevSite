@@ -64,6 +64,9 @@
 
   .blog-content .prose {
     font-size: 0.875rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
   .blog-content .prose h1 {
     font-size: 1.5rem;
@@ -127,6 +130,9 @@
 @media (min-width: 769px) {
   .blog-content .prose {
     font-size: var(--font-size-xl);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
   .blog-content .prose p {
     line-height: var(--line-height-blog);
@@ -253,6 +259,9 @@ body {
 .project-rich-text {
   font-size: var(--font-size-lg);
   color: var(--color-primary-darker);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .project-rich-text p {
