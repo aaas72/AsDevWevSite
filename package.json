@@ -1,6 +1,7 @@
 {
   "name": "as-dev",
   "private": true,
+  "homepage": "https://abdellahsheikh.dev",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
