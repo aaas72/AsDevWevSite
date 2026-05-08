@@ -207,7 +207,7 @@ body {
 .custom-quill-editor .ql-editor {
   padding: 1.5rem !important;
   min-height: 400px;
-  line-height: 1.5 !important;
+  line-height: 1 !important;
 }
 
 .custom-quill-editor .ql-editor.ql-blank::before {
@@ -264,7 +264,7 @@ body {
 .ql-snow.ql-container-display .ql-editor {
   padding: 0 !important;
   font-size: inherit !important;
-  line-height: 1.5 !important; /* Tighter line-height */
+  line-height: 1 !important; /* Minimum line-height */
   color: inherit !important;
   font-family: inherit !important;
   overflow-y: visible !important;
@@ -272,8 +272,8 @@ body {
 }
 
 .ql-snow.ql-container-display .ql-editor p {
-  margin-bottom: 0.5rem !important; /* Much smaller paragraph gap */
-  min-height: 1.5rem; 
+  margin-bottom: 0 !important; /* Remove paragraph gap */
+  min-height: 1em; 
 }
 
 /* Match editor's list style */
