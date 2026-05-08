@@ -166,7 +166,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Overview</h2>
             <div className="ql-snow ql-container-display">
               <div 
-                className="project-rich-text ql-editor text-[#919191] leading-normal"
+                className="project-rich-text ql-editor text-[#919191]"
                 dangerouslySetInnerHTML={{ __html: formatContent(project.overview || project.description) }}
               />
             </div>
@@ -176,7 +176,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
             <div className="ql-snow ql-container-display">
               <div 
-                className="project-rich-text ql-editor text-[#919191] leading-normal"
+                className="project-rich-text ql-editor text-[#919191]"
                 dangerouslySetInnerHTML={{ __html: formatContent(project.challenge) }}
               />
             </div>

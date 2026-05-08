@@ -114,7 +114,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="ql-snow ql-container-display">
             <div
-              className="prose prose-invert prose-lg ql-editor max-w-none text-[#C5C5C5] leading-relaxed"
+              className="prose prose-invert ql-editor max-w-none text-[#C5C5C5]"
               dangerouslySetInnerHTML={{ __html: formatContent(blog.content) }}
             />
           </div>
