@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
-import RichTextEditor from "../../components/RichTextEditor";
+import TipTapEditor from "../../components/TipTapEditor";
 
 interface Blog {
   id: string;
@@ -293,7 +293,7 @@ const ManageBlogs: React.FC = () => {
 
               <div className="space-y-3">
                 <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Content (Rich Text Editor)</label>
-                <RichTextEditor
+                <TipTapEditor
                   value={formData.content}
                   onChange={(content) => setFormData({ ...formData, content })}
                   placeholder="Write your article here..."

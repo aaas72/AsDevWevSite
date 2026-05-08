@@ -1,6 +1,5 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import 'react-quill-new/dist/quill.snow.css';
 import { HomeScreen, AboutMeScreen, ProjectsScreen, ProjectScreen, BlogScreen, BlogPostScreen, ContactScreen } from "./screens/index.ts";
 import ScrollToTop from "./components/ScrollToTop";
 import Login from "./screens/Admin/Login";

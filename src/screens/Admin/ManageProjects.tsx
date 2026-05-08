@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiExternalLink, FiImage } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
-import RichTextEditor from "../../components/RichTextEditor";
+import TipTapEditor from "../../components/TipTapEditor";
 
 interface Result {
   title: string;
@@ -306,7 +306,7 @@ const ManageProjects: React.FC = () => {
               <div className="grid grid-cols-1 gap-10">
                 <div className="space-y-3">
                   <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Project Overview (Rich Text)</label>
-                  <RichTextEditor
+                  <TipTapEditor
                     value={formData.overview}
                     onChange={(content) => setFormData({ ...formData, overview: content })}
                     placeholder="Deep dive into the project goals..."
@@ -315,7 +315,7 @@ const ManageProjects: React.FC = () => {
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">The Challenge (Rich Text)</label>
-                  <RichTextEditor
+                  <TipTapEditor
                     value={formData.challenge}
                     onChange={(content) => setFormData({ ...formData, challenge: content })}
                     placeholder="What problems were solved?"

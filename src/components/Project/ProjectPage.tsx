@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { FiChevronDown } from "react-icons/fi";
 import Loading from "../Loading";
+import TipTapContent from "../TipTapContent";
 
 interface ProjectPageProps {
   projectId?: string;
@@ -57,16 +58,6 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
     } else {
       setOpenResults([...openResults, index]);
     }
-  };
-
-  const formatContent = (content: string) => {
-    if (!content) return "";
-    // If the content already contains HTML tags, return it as is
-    if (/<[a-z][\s\S]*>/i.test(content)) {
-      return content;
-    }
-    // Otherwise, convert newlines to <br /> for plain text
-    return content.replace(/\n/g, '<br />');
   };
 
   if (loading) return <Loading />;
@@ -164,22 +155,12 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
         <div className="container mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Overview</h2>
-            <div className="ql-snow ql-container-display">
-              <div 
-                className="project-rich-text ql-editor text-[#919191]"
-                dangerouslySetInnerHTML={{ __html: formatContent(project.overview || project.description) }}
-              />
-            </div>
+            <TipTapContent content={project.overview || project.description} />
           </div>
 
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
-            <div className="ql-snow ql-container-display">
-              <div 
-                className="project-rich-text ql-editor text-[#919191]"
-                dangerouslySetInnerHTML={{ __html: formatContent(project.challenge) }}
-              />
-            </div>
+            <TipTapContent content={project.challenge} />
           </div>
 
           {/* Results Toggle Cards */}

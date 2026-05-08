@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import BlogCard from "../Cards/BlogCard";
 import Seo from "../Seo";
 import Loading from "../Loading";
+import TipTapContent from "../TipTapContent";
 
 interface BlogPageProps {
   blogId?: string;
@@ -55,16 +56,6 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
     fetchBlog();
   }, [blogId]);
 
-  const formatContent = (content: string) => {
-    if (!content) return "";
-    // If the content already contains HTML tags, return it as is
-    if (/<[a-z][\s\S]*>/i.test(content)) {
-      return content;
-    }
-    // Otherwise, convert newlines to <br /> for plain text
-    return content.replace(/\n/g, '<br />');
-  };
-
   if (loading) return <Loading />;
 
   if (!blog) return (
@@ -112,12 +103,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
       {/* Blog content */}
       <div className="blog-content py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <div className="ql-snow ql-container-display">
-            <div
-              className="prose prose-invert ql-editor max-w-none text-[#C5C5C5]"
-              dangerouslySetInnerHTML={{ __html: formatContent(blog.content) }}
-            />
-          </div>
+          <TipTapContent content={blog.content} />
 
           {/* Tags */}
           {blog.tags && blog.tags.length > 0 && (

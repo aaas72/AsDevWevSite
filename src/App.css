@@ -155,6 +155,145 @@ body {
   min-height: 100vh;
 }
 
+/* ----------------------------------
+   TIPTAP UNIFIED PROSE SYSTEM 
+   (100% WYSIWYG Fidelity)
+----------------------------------- */
+
+.tiptap-prose {
+  font-size: var(--font-size-lg);
+  color: #C5C5C5;
+  line-height: 1.6; /* Balanced line height */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Paragraphs */
+.tiptap-prose p {
+  margin-bottom: 0.75rem; /* Manageable spacing */
+  min-height: 1.6rem; /* Preserve empty lines */
+}
+
+.tiptap-prose p.is-editor-empty:first-child::before {
+  color: #919191;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Headings */
+.tiptap-prose h1,
+.tiptap-prose h2,
+.tiptap-prose h3 {
+  color: white;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.tiptap-prose h1 { font-size: 2.25rem; }
+.tiptap-prose h2 { font-size: 1.875rem; }
+.tiptap-prose h3 { font-size: 1.5rem; }
+
+/* Lists */
+.tiptap-prose ul,
+.tiptap-prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tiptap-prose ul { list-style-type: disc; }
+.tiptap-prose ol { list-style-type: decimal; }
+
+.tiptap-prose li {
+  margin-bottom: 0.25rem;
+}
+
+/* Links */
+.tiptap-prose a {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  transition: text-decoration-color 0.2s;
+}
+.tiptap-prose a:hover {
+  text-decoration-color: #fff;
+}
+
+/* Images */
+.tiptap-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Blockquotes */
+.tiptap-prose blockquote {
+  border-left: 4px solid #C5C5C5;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #919191;
+}
+
+/* Code Blocks */
+.tiptap-prose pre {
+  background: #111;
+  color: #e5e5e5;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.tiptap-prose pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.875rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Inline Code */
+.tiptap-prose code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Tables */
+.tiptap-prose table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.tiptap-prose table td,
+.tiptap-prose table th {
+  min-width: 1em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tiptap-prose table th {
+  font-weight: bold;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Skip link for better keyboard navigation */
 .skip-link {
   position: absolute;
