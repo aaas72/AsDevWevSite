@@ -55,6 +55,16 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
     fetchBlog();
   }, [blogId]);
 
+  const formatContent = (content: string) => {
+    if (!content) return "";
+    // If the content already contains HTML tags, return it as is
+    if (/<[a-z][\s\S]*>/i.test(content)) {
+      return content;
+    }
+    // Otherwise, convert newlines to <br /> for plain text
+    return content.replace(/\n/g, '<br />');
+  };
+
   if (loading) return <Loading />;
 
   if (!blog) return (
@@ -104,7 +114,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
         <div className="container mx-auto px-6 max-w-4xl">
           <div
             className="prose prose-invert prose-lg max-w-none text-[#C5C5C5] leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{ __html: formatContent(blog.content) }}
           />
 
           {/* Tags */}

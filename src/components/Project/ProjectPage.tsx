@@ -59,6 +59,16 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
     }
   };
 
+  const formatContent = (content: string) => {
+    if (!content) return "";
+    // If the content already contains HTML tags, return it as is
+    if (/<[a-z][\s\S]*>/i.test(content)) {
+      return content;
+    }
+    // Otherwise, convert newlines to <br /> for plain text
+    return content.replace(/\n/g, '<br />');
+  };
+
   if (loading) return <Loading />;
 
   if (!project) {
@@ -156,7 +166,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Overview</h2>
             <div 
               className="project-rich-text text-[#919191] leading-normal"
-              dangerouslySetInnerHTML={{ __html: project.overview || project.description }}
+              dangerouslySetInnerHTML={{ __html: formatContent(project.overview || project.description) }}
             />
           </div>
 
@@ -164,7 +174,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
             <div 
               className="project-rich-text text-[#919191] leading-normal"
-              dangerouslySetInnerHTML={{ __html: project.challenge }}
+              dangerouslySetInnerHTML={{ __html: formatContent(project.challenge) }}
             />
           </div>
 
