@@ -112,10 +112,12 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
       {/* Blog content */}
       <div className="blog-content py-16">
         <div className="container mx-auto px-6 max-w-4xl">
-          <div
-            className="prose prose-invert prose-lg max-w-none text-[#C5C5C5] leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: formatContent(blog.content) }}
-          />
+          <div className="ql-snow ql-container-display">
+            <div
+              className="prose prose-invert prose-lg ql-editor max-w-none text-[#C5C5C5] leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: formatContent(blog.content) }}
+            />
+          </div>
 
           {/* Tags */}
           {blog.tags && blog.tags.length > 0 && (

@@ -164,18 +164,22 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
         <div className="container mx-auto px-6">
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Overview</h2>
-            <div 
-              className="project-rich-text text-[#919191] leading-normal"
-              dangerouslySetInnerHTML={{ __html: formatContent(project.overview || project.description) }}
-            />
+            <div className="ql-snow ql-container-display">
+              <div 
+                className="project-rich-text ql-editor text-[#919191] leading-normal"
+                dangerouslySetInnerHTML={{ __html: formatContent(project.overview || project.description) }}
+              />
+            </div>
           </div>
 
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
-            <div 
-              className="project-rich-text text-[#919191] leading-normal"
-              dangerouslySetInnerHTML={{ __html: formatContent(project.challenge) }}
-            />
+            <div className="ql-snow ql-container-display">
+              <div 
+                className="project-rich-text ql-editor text-[#919191] leading-normal"
+                dangerouslySetInnerHTML={{ __html: formatContent(project.challenge) }}
+              />
+            </div>
           </div>
 
           {/* Results Toggle Cards */}

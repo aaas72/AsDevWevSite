@@ -255,6 +255,33 @@ body {
   color: white !important;
 }
 
+/* Quill Content Display Styling */
+.ql-snow.ql-container-display {
+  border: none !important;
+  font-family: inherit !important;
+}
+
+.ql-snow.ql-container-display .ql-editor {
+  padding: 0 !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  overflow-y: visible !important;
+}
+
+.ql-snow.ql-container-display .ql-editor p {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Match editor's list style */
+.ql-snow.ql-container-display .ql-editor ul, 
+.ql-snow.ql-container-display .ql-editor ol {
+  padding-left: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+
 /* Project Rich Text Content Styling */
 .project-rich-text {
   font-size: var(--font-size-lg);
