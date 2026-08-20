@@ -12,9 +12,24 @@ function AboutMeScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="About Me | AS.DEV"
-        description="Learn more about Abdellah S.DEV, full-stack developer focused on clean architecture and performance."
-        keywords={["about","developer","AS.DEV","skills"]}
+        title="About Abdellah Sheikh (Abdellah Aidaros) | AS.DEV — Profile & CV"
+        description="Learn more about Abdellah Sheikh (Abdellah Aidaros / عبداللاه عيدروس / عبداللاه شيخ / AS.DEV), Full-Stack Software Engineer, skills, background, and career journey."
+        keywords={[
+          "Abdellah Sheikh",
+          "Abdellah Aidaros",
+          "AS.DEV",
+          "asdev",
+          "as-dev",
+          "as.dev",
+          "as dev",
+          "عبداللاه عيدروس",
+          "عبداللاه شيخ",
+          "عبداللاه الشيخ",
+          "about abdellah",
+          "CV",
+          "resume",
+          "software engineer"
+        ]}
         canonicalPath="/about"
         image="/src/assets/myPhoto.png"
         type="profile"

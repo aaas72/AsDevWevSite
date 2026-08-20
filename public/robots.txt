@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /login
 
-Sitemap: https://abdellahsheikh.com/sitemap.xml
+Sitemap: https://abdellahsheikh.dev/sitemap.xml

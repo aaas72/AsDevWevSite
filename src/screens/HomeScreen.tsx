@@ -14,9 +14,24 @@ function HomeScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="AS.DEV | Full-Stack Developer & Software Engineer"
-        description="Portfolio, projects, blog, and services by Abdellah S.DEV, full-stack developer and software engineer."
-        keywords={["AS.DEV","full-stack","web development","portfolio","blog","projects"]}
+        title="Abdellah Sheikh (Abdellah Aidaros) | AS.DEV — Software Engineer"
+        description="Official website and portfolio of Abdellah Sheikh (Abdellah Aidaros / عبداللاه عيدروس / عبداللاه شيخ / AS.DEV). Full-Stack Software Engineer & Web Developer."
+        keywords={[
+          "Abdellah Sheikh",
+          "Abdellah Aidaros",
+          "AS.DEV",
+          "asdev",
+          "as-dev",
+          "as.dev",
+          "as dev",
+          "عبداللاه عيدروس",
+          "عبداللاه شيخ",
+          "عبداللاه الشيخ",
+          "full-stack developer",
+          "software engineer",
+          "web development",
+          "portfolio"
+        ]}
         canonicalPath="/"
         image="/src/assets/myPhoto.png"
         type="website"
