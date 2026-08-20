@@ -2,72 +2,83 @@ import React, { useEffect, useState } from "react";
 import ProjectCard from "../Cards/ProjectCard";
 import Button from "../Button";
 import { Link } from "react-router-dom";
-import { supabase } from "../../lib/supabase";
+import { projectService } from "../../services";
 import Loading from "../Loading";
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  project_url: string;
-}
+import type { Project } from "../../types";
+import { useScrollReveal } from "../../hooks";
+import { ScrollReveal } from "../ScrollReveal/ScrollReveal";
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const { ref: sectionRef, isVisible, scrollDir } = useScrollReveal<HTMLElement>({
+    threshold: 0.05,
+    rootMargin: "-20px 0px -50px 0px",
+  });
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(4);
-      
-      if (!error && data) {
+      try {
+        const data = await projectService.getRecent(4);
         setProjects(data);
+      } catch (err) {
+        console.error("Error fetching recent projects:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchProjects();
   }, []);
 
-  if (loading) return <Loading />;
-
   return (
-    <section className="relative w-full py-16">
+    <section ref={sectionRef} className="relative w-full py-16 overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-3xl font-medium text-[#C5C5C5]">Recent Works</h2>
-          <span className="text-[#C5C5C5]">2022 — PRESENT</span>
-        </div>
+        {/* Reusable Direction-Aware Header */}
+        <ScrollReveal.Header
+          title="Recent Works"
+          badge="2022 — PRESENT"
+          isVisible={isVisible}
+          scrollDir={scrollDir}
+        />
 
         {loading ? (
-          <div className="text-center py-12 text-[#C5C5C5]">Loading projects...</div>
+          <Loading />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map((project) => (
-              <ProjectCard
+          /* Cards Grid with Reusable 3D Stagger Entrance */
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {projects.map((project, index) => (
+              <ScrollReveal.Item
                 key={project.id}
-                id={project.id}
-                title={project.title}
-                description={project.description}
-                imageUrl={project.image_url}
-                projectUrl={project.project_url}
-              />
+                index={index}
+                totalColumns={2}
+                isVisible={isVisible}
+                scrollDir={scrollDir}
+              >
+                <ProjectCard
+                  id={project.id}
+                  title={project.title}
+                  description={project.description}
+                  imageUrl={project.image_url}
+                  projectUrl={project.project_url}
+                />
+              </ScrollReveal.Item>
             ))}
           </div>
         )}
 
-        <div className="flex justify-center mt-12">
+        {/* Reusable Action Button with Directional Reveal */}
+        <ScrollReveal.Action
+          isVisible={isVisible}
+          scrollDir={scrollDir}
+          delayMs={550}
+        >
           <Link to="/projects">
             <Button variant="outline" size="lg">
               ALL WORKS
             </Button>
           </Link>
-        </div>
+        </ScrollReveal.Action>
       </div>
     </section>
   );

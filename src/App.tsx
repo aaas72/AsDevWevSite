@@ -11,10 +11,12 @@ import ManageTools from "./screens/Admin/ManageTools";
 import ManageAbout from "./screens/Admin/ManageAbout";
 import ManageMessages from "./screens/Admin/ManageMessages";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { AlertProvider } from "./context/AlertContext";
 
 function App() {
   return (
-    <Router>
+    <AlertProvider>
+      <Router>
       <ScrollToTop />
       <div id="main-content" className="main-app w-full h-screen noise">
         <Routes>
@@ -42,6 +44,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </AlertProvider>
   );
 }
 

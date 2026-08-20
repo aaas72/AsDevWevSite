@@ -7,7 +7,7 @@ interface ProjectCardProps {
   title: string;
   description: string;
   imageUrl: string;
-  projectUrl: string;
+  projectUrl?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({

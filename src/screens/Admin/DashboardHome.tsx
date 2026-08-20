@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { projectService, blogService, toolService } from "../../services";
 import { FiBriefcase, FiFileText, FiTool } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -9,17 +9,21 @@ const DashboardHome: React.FC = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const [p, b, t] = await Promise.all([
-        supabase.from("projects").select("*", { count: "exact", head: true }),
-        supabase.from("blogs").select("*", { count: "exact", head: true }),
-        supabase.from("tools").select("*", { count: "exact", head: true }),
-      ]);
+      try {
+        const [projectCount, blogCount, toolCount] = await Promise.all([
+          projectService.getCount(),
+          blogService.getCount(),
+          toolService.getCount(),
+        ]);
 
-      setStats({
-        projects: p.count || 0,
-        blogs: b.count || 0,
-        tools: t.count || 0,
-      });
+        setStats({
+          projects: projectCount,
+          blogs: blogCount,
+          tools: toolCount,
+        });
+      } catch (err) {
+        console.error("Error fetching dashboard stats:", err);
+      }
     };
 
     fetchStats();

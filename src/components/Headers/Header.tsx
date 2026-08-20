@@ -14,7 +14,7 @@ const Header = () => {
 
       <div className="relative z-20 flex flex-col items-center justify-center h-full max-w-4xl mx-auto text-center px-4 sm:px-6">
         <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal text-[#C5C5C5] mb-4 sm:mb-6">
-          Abdellah S.DEV
+          Abdellah Sheikh
         </h2>
         <p className="text-base sm:text-lg md:text-xl text-[#C5C5C5] max-w-2xl">
           A freelance web developer who excels in building MVPs, micro SaaS

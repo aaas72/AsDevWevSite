@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { messageService } from "../../services";
 import { FiMail, FiTrash2, FiClock, FiUser, FiInbox } from "react-icons/fi";
 import Loading from "../../components/Loading";
-
-interface Message {
-  id: number;
-  name: string;
-  email: string;
-  message: string;
-  created_at: string;
-  is_read: boolean;
-}
+import { useAlert } from "../../context/AlertContext";
+import type { Message } from "../../types";
 
 const ManageMessages: React.FC = () => {
+  const { toast, confirm } = useAlert();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -23,42 +17,46 @@ const ManageMessages: React.FC = () => {
 
   const fetchMessages = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false });
-    
-    if (!error && data) {
+    try {
+      const data = await messageService.getAll();
       setMessages(data);
+    } catch (err: any) {
+      toast.error("Failed to load messages: " + err.message, "Error");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const markAsRead = async (id: number) => {
-    const { error } = await supabase
-      .from("contact_messages")
-      .update({ is_read: true })
-      .eq("id", id);
-    
-    if (!error) {
+    try {
+      await messageService.markAsRead(id);
       setMessages(messages.map(m => m.id === id ? { ...m, is_read: true } : m));
       if (selectedMessage?.id === id) {
         setSelectedMessage({ ...selectedMessage, is_read: true });
       }
+    } catch (err: any) {
+      toast.error("Failed to update message: " + err.message, "Error");
     }
   };
 
   const deleteMessage = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this message?")) return;
+    const isConfirmed = await confirm({
+      title: "Delete Message",
+      message: "Are you sure you want to delete this message permanently?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      type: "danger",
+    });
+
+    if (!isConfirmed) return;
     
-    const { error } = await supabase
-      .from("contact_messages")
-      .delete()
-      .eq("id", id);
-    
-    if (!error) {
+    try {
+      await messageService.delete(id);
       setMessages(messages.filter(m => m.id !== id));
       if (selectedMessage?.id === id) setSelectedMessage(null);
+      toast.success("Message deleted successfully.", "Deleted");
+    } catch (error: any) {
+      toast.error("Failed to delete message: " + error.message, "Error");
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { authService } from "../../services";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 
@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    authService.getSession().then((session) => {
       if (session) {
         navigate("/admin/dashboard");
       }
@@ -23,17 +23,14 @@ const Login: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
-    } else {
+    try {
+      await authService.signIn(email, password);
       navigate("/admin/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Failed to log in.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

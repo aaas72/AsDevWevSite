@@ -9,7 +9,7 @@ import {
   FiLogOut,
   FiMail
 } from "react-icons/fi";
-import { supabase } from "../../lib/supabase";
+import { authService } from "../../services";
 
 const AdminLayout: React.FC = () => {
   const location = useLocation();
@@ -35,7 +35,7 @@ const AdminLayout: React.FC = () => {
   }, [prevScrollPosition]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await authService.signOut();
     navigate("/login");
   };
 

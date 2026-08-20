@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { blogService } from "../../services";
 import BlogCard from "../Cards/BlogCard";
 import Seo from "../Seo";
 import Loading from "../Loading";
 import TipTapContent from "../TipTapContent";
+import type { Blog } from "../../types";
 
 interface BlogPageProps {
   blogId?: string;
-}
-
-interface Blog {
-  id: string;
-  title: string;
-  short_description: string;
-  category: string;
-  date: string;
-  image_url: string;
-  cover_image: string;
-  content: string;
-  author: string;
-  tags: string[];
-  related_posts: string[];
 }
 
 const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
@@ -33,24 +20,21 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
       if (!blogId) return;
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from("blogs")
-        .select("*")
-        .eq("id", blogId)
-        .single();
+      try {
+        const data = await blogService.getById(blogId);
+        if (data) {
+          setBlog(data);
 
-      if (!error && data) {
-        setBlog(data);
-
-        if (data.related_posts && data.related_posts.length > 0) {
-          const { data: related } = await supabase
-            .from("blogs")
-            .select("*")
-            .in("id", data.related_posts);
-          if (related) setRelatedPosts(related);
+          if (data.related_posts && data.related_posts.length > 0) {
+            const related = await blogService.getByIds(data.related_posts);
+            setRelatedPosts(related);
+          }
         }
+      } catch (err) {
+        console.error("Error fetching blog post:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchBlog();

@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { blogService, storageService } from "../../services";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 import TipTapEditor from "../../components/TipTapEditor";
-
-interface Blog {
-  id: string;
-  title: string;
-  short_description: string;
-  category: string;
-  date: string;
-  image_url: string;
-  cover_image: string;
-  content: string;
-  author: string;
-  tags: string[];
-}
+import { useAlert } from "../../context/AlertContext";
+import type { Blog } from "../../types";
 
 const ManageBlogs: React.FC = () => {
+  const { toast, confirm } = useAlert();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -35,7 +25,7 @@ const ManageBlogs: React.FC = () => {
     author: "Abdellah S.DEV",
     tags: [] as string[],
   });
-  const [uploading, setUploading] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<"image_url" | "cover_image" | null>(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -51,12 +41,14 @@ const ManageBlogs: React.FC = () => {
 
   const fetchBlogs = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("blogs")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error) setBlogs(data || []);
-    setLoading(false);
+    try {
+      const data = await blogService.getAll();
+      setBlogs(data);
+    } catch (err: any) {
+      toast.error("Failed to load blogs: " + err.message, "Error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleOpenModal = (blog?: Blog) => {
@@ -66,7 +58,7 @@ const ManageBlogs: React.FC = () => {
         title: blog.title || "",
         short_description: blog.short_description || "",
         category: blog.category || "",
-        date: blog.date || "",
+        date: blog.date || new Date().toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', ' /'),
         image_url: blog.image_url || "",
         cover_image: blog.cover_image || "",
         content: blog.content || "",
@@ -92,44 +84,45 @@ const ManageBlogs: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingBlog) {
-      const { error } = await supabase
-        .from("blogs")
-        .update(formData)
-        .eq("id", editingBlog.id);
-      if (!error) {
+    try {
+      if (editingBlog) {
+        await blogService.update(editingBlog.id, formData);
         setIsModalOpen(false);
         fetchBlogs();
-      }
-    } else {
-      const { error } = await supabase.from("blogs").insert([formData]);
-      if (!error) {
+        toast.success("Blog article updated successfully!", "Saved");
+      } else {
+        await blogService.create(formData);
         setIsModalOpen(false);
         fetchBlogs();
+        toast.success("New article published successfully!", "Published");
       }
+    } catch (error: any) {
+      toast.error("Failed to save blog: " + error.message, "Error");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
-      const { error } = await supabase.from("blogs").delete().eq("id", id);
-      if (!error) fetchBlogs();
+    const isConfirmed = await confirm({
+      title: "Delete Article",
+      message: "Are you sure you want to delete this blog post? This action cannot be undone.",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      type: "danger",
+    });
+
+    if (isConfirmed) {
+      try {
+        await blogService.delete(id);
+        fetchBlogs();
+        toast.success("Article deleted successfully.", "Deleted");
+      } catch (error: any) {
+        toast.error("Failed to delete article: " + error.message, "Error");
+      }
     }
   };
 
   const handleEditorImageUpload = async (file: File): Promise<string> => {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Math.random()}.${fileExt}`;
-    const filePath = `blogs/editor/${fileName}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("images")
-      .upload(filePath, file);
-
-    if (uploadError) throw uploadError;
-
-    const { data } = supabase.storage.from("images").getPublicUrl(filePath);
-    return data.publicUrl;
+    return storageService.uploadImage(file, "blogs/editor");
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: "image_url" | "cover_image") => {
@@ -137,20 +130,12 @@ const ManageBlogs: React.FC = () => {
       setUploading(field);
       if (!e.target.files || e.target.files.length === 0) return;
       const file = e.target.files[0];
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `blogs/${fileName}`;
+      const publicUrl = await storageService.uploadImage(file, "blogs");
 
-      const { error: uploadError } = await supabase.storage
-        .from("images")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from("images").getPublicUrl(filePath);
-      setFormData({ ...formData, [field]: data.publicUrl });
+      setFormData({ ...formData, [field]: publicUrl });
+      toast.success("Image uploaded successfully!", "Upload Complete");
     } catch (error: any) {
-      alert("Error uploading image: " + error.message);
+      toast.error("Error uploading image: " + error.message, "Upload Failed");
     } finally {
       setUploading(null);
     }

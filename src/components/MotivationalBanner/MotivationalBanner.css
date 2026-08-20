@@ -1,17 +1,49 @@
 @keyframes marquee-rtl {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes marquee-ltr {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
-.marquee-rtl {
+.marquee-rtl-1 {
   animation: marquee-rtl 25s linear infinite;
 }
 
-.marquee-ltr {
-  animation: marquee-ltr 25s linear infinite;
+.marquee-ltr-1 {
+  animation: marquee-ltr 30s linear infinite;
+}
+
+.marquee-rtl-2 {
+  animation: marquee-rtl 22s linear infinite;
+}
+
+.marquee-ltr-2 {
+  animation: marquee-ltr 28s linear infinite;
+}
+
+.marquee-rtl-3 {
+  animation: marquee-rtl 26s linear infinite;
+}
+
+/* 3D Directional Extruded Shadows - Hidden by default, emerges smoothly on mouse movement */
+.shadow-phrase {
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-shadow:
+    calc(var(--shadow-x, 0px) * 0.7) calc(var(--shadow-y, 0px) * 0.7) 0 rgba(0, 210, 255, var(--shadow-opacity, 0)),
+    calc(var(--shadow-x, 0px) * 1.4) calc(var(--shadow-y, 0px) * 1.4) 0 rgba(255, 0, 127, var(--shadow-opacity, 0));
+  will-change: text-shadow;
+  transition: text-shadow 0.15s ease-out;
 }

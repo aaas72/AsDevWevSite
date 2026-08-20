@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { toolService, storageService } from "../../services";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
 import Button from "../../components/Button";
-
-interface Tool {
-  id: string;
-  name: string;
-  icon_url: string;
-  category: string;
-}
+import { useAlert } from "../../context/AlertContext";
+import type { Tool } from "../../types";
 
 const ManageTools: React.FC = () => {
+  const { toast, confirm } = useAlert();
   const [tools, setTools] = useState<Tool[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,12 +24,14 @@ const ManageTools: React.FC = () => {
 
   const fetchTools = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("tools")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error) setTools(data || []);
-    setLoading(false);
+    try {
+      const data = await toolService.getAll();
+      setTools(data);
+    } catch (err: any) {
+      toast.error("Failed to fetch tools: " + err.message, "Error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleOpenModal = (tool?: Tool) => {
@@ -53,28 +51,40 @@ const ManageTools: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingTool) {
-      const { error } = await supabase
-        .from("tools")
-        .update(formData)
-        .eq("id", editingTool.id);
-      if (!error) {
+    try {
+      if (editingTool) {
+        await toolService.update(editingTool.id, formData);
         setIsModalOpen(false);
         fetchTools();
-      }
-    } else {
-      const { error } = await supabase.from("tools").insert([formData]);
-      if (!error) {
+        toast.success("Tool / Stack updated successfully!", "Saved");
+      } else {
+        await toolService.create(formData);
         setIsModalOpen(false);
         fetchTools();
+        toast.success("New tool / stack registered successfully!", "Created");
       }
+    } catch (error: any) {
+      toast.error("Failed to save tool: " + error.message, "Error");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this tool?")) {
-      const { error } = await supabase.from("tools").delete().eq("id", id);
-      if (!error) fetchTools();
+    const isConfirmed = await confirm({
+      title: "Delete Tool",
+      message: "Are you sure you want to delete this tool/stack from your arsenal?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      type: "danger",
+    });
+
+    if (isConfirmed) {
+      try {
+        await toolService.delete(id);
+        fetchTools();
+        toast.success("Tool removed successfully.", "Deleted");
+      } catch (error: any) {
+        toast.error("Failed to remove tool: " + error.message, "Error");
+      }
     }
   };
 
@@ -83,20 +93,12 @@ const ManageTools: React.FC = () => {
       setUploading(true);
       if (!e.target.files || e.target.files.length === 0) return;
       const file = e.target.files[0];
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `tools/${fileName}`;
+      const publicUrl = await storageService.uploadImage(file, "tools");
 
-      const { error: uploadError } = await supabase.storage
-        .from("images")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from("images").getPublicUrl(filePath);
-      setFormData({ ...formData, icon_url: data.publicUrl });
+      setFormData({ ...formData, icon_url: publicUrl });
+      toast.success("Icon uploaded successfully!", "Upload Complete");
     } catch (error: any) {
-      alert("Error uploading icon: " + error.message);
+      toast.error("Error uploading icon: " + error.message, "Upload Failed");
     } finally {
       setUploading(false);
     }

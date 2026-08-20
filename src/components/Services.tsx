@@ -1,7 +1,14 @@
 import React from "react";
 import ServiceCard from "./Cards/ServiceCard";
+import { useScrollReveal } from "../hooks";
+import { ScrollReveal } from "./ScrollReveal/ScrollReveal";
 
 const Services: React.FC = () => {
+  const { ref: sectionRef, isVisible, scrollDir } = useScrollReveal<HTMLElement>({
+    threshold: 0.05,
+    rootMargin: "-20px 0px -50px 0px",
+  });
+
   const services = [
     {
       id: "01",
@@ -42,23 +49,30 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="w-full py-16 ">
+    <section ref={sectionRef} className="w-full py-16 overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-3xl font-medium text-[#C5C5C5]">
-            What I Can Do For You
-          </h2>
-          <span className="text-xl font-medium text-[#C5C5C5]">SERVICES</span>
-        </div>
+        <ScrollReveal.Header
+          title="What I Can Do For You"
+          badge="SERVICES"
+          isVisible={isVisible}
+          scrollDir={scrollDir}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              id={service.id}
-              title={service.title}
-              description={service.description}
-            />
+            <ScrollReveal.Item
+              key={service.id}
+              index={index}
+              totalColumns={3}
+              isVisible={isVisible}
+              scrollDir={scrollDir}
+            >
+              <ServiceCard
+                id={service.id}
+                title={service.title}
+                description={service.description}
+              />
+            </ScrollReveal.Item>
           ))}
         </div>
       </div>

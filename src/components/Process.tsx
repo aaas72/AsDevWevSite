@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+interface ProcessStep {
+  id: number;
+  title: string;
+  description: string;
+}
 
 const Process: React.FC = () => {
-  const processSteps = [
+  const [isVisible, setIsVisible] = useState(false);
+  const [revealedCount, setRevealedCount] = useState<number>(0);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const timerRef = useRef<NodeJS.Timeout[]>([]);
+  const hasTriggeredRef = useRef(false);
+
+  const processSteps: ProcessStep[] = [
     {
       id: 1,
       title: "01 — Discovery & Research",
@@ -40,28 +53,120 @@ const Process: React.FC = () => {
     },
   ];
 
+  // Progressive Reading Flow - Runs ONCE on initial load/reveal
+  useEffect(() => {
+    if (!isVisible || hasTriggeredRef.current) return;
+    hasTriggeredRef.current = true;
+
+    // Step 1 appears immediately on initial reveal
+    setRevealedCount(1);
+
+    const readingTimePerStep = 1200; // ms per step
+
+    for (let i = 2; i <= processSteps.length; i++) {
+      const timeout = setTimeout(() => {
+        setRevealedCount(i);
+        if (i === processSteps.length) {
+          // After the final step completes its reading glow, mark as fully stable
+          setTimeout(() => {
+            setIsCompleted(true);
+          }, readingTimePerStep);
+        }
+      }, (i - 1) * readingTimePerStep);
+      timerRef.current.push(timeout);
+    }
+
+    return () => {
+      timerRef.current.forEach((t) => clearTimeout(t));
+    };
+  }, [isVisible]);
+
+  // One-time Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Disconnect immediately so it only triggers ONCE
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "-20px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative w-full py-16 ">
+    <section ref={sectionRef} className="relative w-full py-16 overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center mb-12">
+        {/* Header - Identical to Original Design */}
+        <div
+          className="flex justify-between items-center mb-12 transition-all duration-700 ease-out"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(-15px)",
+          }}
+        >
           <h2 className="text-3xl font-medium text-[#C5C5C5]">
             Process Delivers Value
           </h2>
-          <span className="text-[#C5C5C5]">THE APPROACH</span>
+          <span className="text-[#C5C5C5] text-sm tracking-wider uppercase">
+            THE APPROACH
+          </span>
         </div>
 
+        {/* 6 Process Cards with One-Time Progressive Reading Flow */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {processSteps.map((step) => (
-            <div
-              key={step.id}
-              className="process-step p-6  border-l-2   border-[#6c6c6c]"
-            >
-              <h3 className="text-lg font-medium text-[#ffffff] mb-4">
-                {step.title}
-              </h3>
-              <p className="text-sm text-[#A0A0A0]">{step.description}</p>
-            </div>
-          ))}
+          {processSteps.map((step, index) => {
+            const isRevealed = index < revealedCount;
+            const isCurrentlyReading =
+              !isCompleted && index === revealedCount - 1;
+
+            return (
+              <div
+                key={step.id}
+                className={`process-step p-6 border-l-2 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group ${
+                  isCurrentlyReading
+                    ? "border-white bg-white/[0.02]"
+                    : "border-[#6c6c6c] hover:border-white"
+                }`}
+                style={{
+                  opacity: isRevealed ? 1 : 0,
+                  transform: isRevealed
+                    ? "translateX(0) scale(1)"
+                    : "translateX(-45px) scale(0.95)",
+                  filter: isRevealed ? "blur(0px)" : "blur(6px)",
+                  pointerEvents: isRevealed ? "auto" : "none",
+                }}
+              >
+                <h3
+                  className={`text-lg font-medium mb-4 transition-colors duration-300 ${
+                    isCurrentlyReading
+                      ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.35)]"
+                      : "text-[#ffffff] group-hover:text-white"
+                  }`}
+                >
+                  {step.title}
+                </h3>
+                <p
+                  className={`text-sm leading-relaxed transition-colors duration-300 ${
+                    isCurrentlyReading
+                      ? "text-[#E0E0E0]"
+                      : "text-[#A0A0A0] group-hover:text-[#D4D4D4]"
+                  }`}
+                >
+                  {step.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

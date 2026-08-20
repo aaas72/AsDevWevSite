@@ -1,54 +1,58 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "../Cards/BlogCard";
-import { supabase } from "../../lib/supabase";
+import { blogService } from "../../services";
 import Loading from "../Loading";
-
-interface Blog {
-  id: string;
-  title: string;
-  short_description: string;
-  category: string;
-  date: string;
-  image_url: string;
-}
+import type { Blog } from "../../types";
+import { useScrollReveal } from "../../hooks";
+import { ScrollReveal } from "../ScrollReveal/ScrollReveal";
 
 const AllBlogs: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const { ref: sectionRef, isVisible, scrollDir } = useScrollReveal<HTMLElement>({
+    threshold: 0.05,
+    rootMargin: "-20px 0px -50px 0px",
+  });
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const { data, error } = await supabase
-        .from("blogs")
-        .select("*")
-        .order("created_at", { ascending: false });
-      
-      if (!error && data) {
+      try {
+        const data = await blogService.getAll();
         setBlogs(data);
+      } catch (err) {
+        console.error("Error fetching all blogs:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchBlogs();
   }, []);
 
   return (
-    <section className="relative w-full py-16">
+    <section ref={sectionRef} className="relative w-full py-16 overflow-hidden">
       <div className="container mx-auto px-6">
         {loading ? (
           <Loading />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogs.map((blog) => (
-              <BlogCard
+            {blogs.map((blog, index) => (
+              <ScrollReveal.Item
                 key={blog.id}
-                id={blog.id}
-                title={blog.title}
-                shortDescription={blog.short_description}
-                category={blog.category}
-                date={blog.date}
-                imageUrl={blog.image_url}
-              />
+                index={index}
+                totalColumns={3}
+                isVisible={isVisible}
+                scrollDir={scrollDir}
+              >
+                <BlogCard
+                  id={blog.id}
+                  title={blog.title}
+                  shortDescription={blog.short_description}
+                  category={blog.category}
+                  date={blog.date}
+                  imageUrl={blog.image_url}
+                />
+              </ScrollReveal.Item>
             ))}
           </div>
         )}

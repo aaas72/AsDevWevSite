@@ -1,34 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { projectService, storageService } from "../../services";
 import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiExternalLink, FiImage } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 import TipTapEditor from "../../components/TipTapEditor";
-
-interface Result {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  short_description: string;
-  overview: string;
-  challenge: string;
-  services: string[];
-  technical_stack: string[];
-  image_url: string;
-  cover_image: string;
-  project_url: string;
-  website: string;
-  category: string;
-  results: Result[];
-}
+import { useAlert } from "../../context/AlertContext";
+import type { Project, ProjectResult } from "../../types";
 
 const ManageProjects: React.FC = () => {
+  const { toast, confirm } = useAlert();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -47,7 +27,7 @@ const ManageProjects: React.FC = () => {
     project_url: "",
     website: "",
     category: "",
-    results: [] as Result[],
+    results: [] as ProjectResult[],
   });
   const [uploading, setUploading] = useState<string | null>(null);
 
@@ -65,12 +45,14 @@ const ManageProjects: React.FC = () => {
 
   const fetchProjects = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("projects")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error) setProjects(data || []);
-    setLoading(false);
+    try {
+      const data = await projectService.getAll();
+      setProjects(data);
+    } catch (err: any) {
+      toast.error("Failed to load projects: " + err.message, "Error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleOpenModal = (project?: Project) => {
@@ -114,44 +96,45 @@ const ManageProjects: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingProject) {
-      const { error } = await supabase
-        .from("projects")
-        .update(formData)
-        .eq("id", editingProject.id);
-      if (!error) {
+    try {
+      if (editingProject) {
+        await projectService.update(editingProject.id, formData);
         setIsModalOpen(false);
         fetchProjects();
-      }
-    } else {
-      const { error } = await supabase.from("projects").insert([formData]);
-      if (!error) {
+        toast.success("Project updated successfully!", "Saved");
+      } else {
+        await projectService.create(formData);
         setIsModalOpen(false);
         fetchProjects();
+        toast.success("New project forged successfully!", "Created");
       }
+    } catch (error: any) {
+      toast.error("Failed to save project: " + error.message, "Error");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this project?")) {
-      const { error } = await supabase.from("projects").delete().eq("id", id);
-      if (!error) fetchProjects();
+    const isConfirmed = await confirm({
+      title: "Delete Project",
+      message: "Are you sure you want to delete this project? This action cannot be undone.",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      type: "danger",
+    });
+
+    if (isConfirmed) {
+      try {
+        await projectService.delete(id);
+        fetchProjects();
+        toast.success("Project deleted successfully.", "Deleted");
+      } catch (error: any) {
+        toast.error("Failed to delete project: " + error.message, "Error");
+      }
     }
   };
 
   const handleEditorImageUpload = async (file: File): Promise<string> => {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Math.random()}.${fileExt}`;
-    const filePath = `projects/editor/${fileName}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("images")
-      .upload(filePath, file);
-
-    if (uploadError) throw uploadError;
-
-    const { data } = supabase.storage.from("images").getPublicUrl(filePath);
-    return data.publicUrl;
+    return storageService.uploadImage(file, "projects/editor");
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string, resultIndex?: number) => {
@@ -159,27 +142,18 @@ const ManageProjects: React.FC = () => {
       setUploading(field);
       if (!e.target.files || e.target.files.length === 0) return;
       const file = e.target.files[0];
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `projects/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("images")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+      const publicUrl = await storageService.uploadImage(file, "projects");
       
       if (resultIndex !== undefined) {
         const newResults = [...formData.results];
-        newResults[resultIndex].imageUrl = data.publicUrl;
+        newResults[resultIndex].imageUrl = publicUrl;
         setFormData({ ...formData, results: newResults });
       } else {
-        setFormData({ ...formData, [field]: data.publicUrl });
+        setFormData({ ...formData, [field]: publicUrl });
       }
+      toast.success("Image uploaded successfully!", "Upload Complete");
     } catch (error: any) {
-      alert("Error uploading image: " + error.message);
+      toast.error("Error uploading image: " + error.message, "Upload Error");
     } finally {
       setUploading(null);
     }
@@ -198,7 +172,7 @@ const ManageProjects: React.FC = () => {
     setFormData({ ...formData, results: newResults });
   };
 
-  const updateResult = (index: number, field: keyof Result, value: string) => {
+  const updateResult = (index: number, field: keyof ProjectResult, value: string) => {
     const newResults = [...formData.results];
     newResults[index] = { ...newResults[index], [field]: value };
     setFormData({ ...formData, results: newResults });

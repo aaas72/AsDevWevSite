@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { projectService } from "../../services";
 import { FiChevronDown } from "react-icons/fi";
 import Loading from "../Loading";
 import TipTapContent from "../TipTapContent";
+import type { Project } from "../../types";
 
 interface ProjectPageProps {
   projectId?: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  short_description: string;
-  overview: string;
-  challenge: string;
-  services: string[];
-  technical_stack: string[];
-  image_url: string;
-  cover_image: string;
-  website: string;
-  category: string;
-  project_url: string;
-  created_at: string;
-  results: any[];
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
@@ -36,17 +19,17 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
     const fetchProject = async () => {
       if (!projectId) return;
       setLoading(true);
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .eq("id", projectId)
-        .single();
-
-      if (!error && data) {
-        setProject(data);
-        setOpenResults([]);
+      try {
+        const data = await projectService.getById(projectId);
+        if (data) {
+          setProject(data);
+          setOpenResults([]);
+        }
+      } catch (err) {
+        console.error("Error fetching project:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchProject();
@@ -158,17 +141,19 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
             <TipTapContent content={project.overview || project.description} />
           </div>
 
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
-            <TipTapContent content={project.challenge} />
-          </div>
+          {project.challenge && (
+            <div className="mb-16">
+              <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Project Challenges</h2>
+              <TipTapContent content={project.challenge} />
+            </div>
+          )}
 
           {/* Results Toggle Cards */}
           {project.results && project.results.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Results</h2>
               <div className="grid grid-cols-1 gap-8 mt-8">
-                {project.results.map((result: any, index: number) => {
+                {project.results.map((result, index) => {
                   const isOpen = openResults.includes(index);
                   return (
                     <div

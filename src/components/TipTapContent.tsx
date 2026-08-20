@@ -2,7 +2,7 @@ import React from 'react';
 import 'highlight.js/styles/atom-one-dark.css';
 
 interface TipTapContentProps {
-  content: string;
+  content?: string;
 }
 
 const TipTapContent: React.FC<TipTapContentProps> = ({ content }) => {
