@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import BlogCard from "../Cards/BlogCard";
@@ -19,7 +20,7 @@ const Blogs: React.FC = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const data = await blogService.getRecent(3);
+        const data = await blogService.getRecent(4);
         setBlogs(data);
       } catch (err) {
         console.error("Error fetching recent blogs:", err);
@@ -32,14 +33,12 @@ const Blogs: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} data-theme="light" className="relative w-full py-16 bg-[#E7E7E7] overflow-hidden">
+    <section ref={sectionRef} className="relative w-full py-16 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Reusable Direction-Aware Header */}
         <ScrollReveal.Header
           title="My weekly thoughts"
           badge="BLOG"
-          titleColor="text-[#1E1E1E]"
-          badgeColor="text-[#1E1E1E]"
           isVisible={isVisible}
           scrollDir={scrollDir}
         />
@@ -48,12 +47,12 @@ const Blogs: React.FC = () => {
           <Loading />
         ) : (
           /* Cards Grid with Reusable 3D Stagger Entrance */
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {blogs.map((post, index) => (
               <ScrollReveal.Item
                 key={post.id}
                 index={index}
-                totalColumns={3}
+                totalColumns={4}
                 isVisible={isVisible}
                 scrollDir={scrollDir}
               >
@@ -76,7 +75,7 @@ const Blogs: React.FC = () => {
           delayMs={450}
         >
           <Link to="/blog">
-            <Button variant="outline" size="lg" className="bg-[#1E1E1E]">
+            <Button variant="outline" size="lg">
               ALL POSTS
             </Button>
           </Link>

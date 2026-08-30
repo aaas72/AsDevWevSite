@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   /* نظام الألوان الموحد */
@@ -184,6 +185,10 @@ body {
   word-break: break-word;
 }
 
+.ProseMirror:focus {
+  outline: none;
+}
+
 /* Paragraphs */
 .tiptap-prose p {
   margin-bottom: 0.75rem;
@@ -298,6 +303,15 @@ body {
   border-radius: 0.25rem;
   font-size: 0.875em;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Fix for Tailwind v4: Make all buttons and clickable elements have pointer cursor */
+button, 
+[role="button"], 
+input[type="submit"], 
+input[type="button"],
+select {
+  cursor: pointer;
 }
 
 /* Tables */
@@ -582,4 +596,18 @@ body {
     transform: translate3d(0, 0, 0) scale(1);
     filter: blur(0px);
   }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(10px); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 8s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }

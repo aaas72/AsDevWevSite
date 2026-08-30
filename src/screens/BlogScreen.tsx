@@ -2,7 +2,6 @@ import {
   NavBar,
   PageHeader,
   AllBlogs,
-  MotivationalBanner,
   Footer,
 } from "../components/index";
 import Seo from "../components/Seo";
@@ -35,7 +34,6 @@ function BlogScreen() {
       <NavBar />
       <PageHeader title="Blog" question="What I'm Thinking ?" />
       <AllBlogs />
-      <MotivationalBanner />
       <Footer />
     </div>
   );

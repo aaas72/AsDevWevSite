@@ -7,9 +7,11 @@ import {
   FiUser, 
   FiTool, 
   FiLogOut,
-  FiMail
+  FiMail,
+  FiEdit3
 } from "react-icons/fi";
 import { authService } from "../../services";
+import Button from "../../components/Button";
 
 const AdminLayout: React.FC = () => {
   const location = useLocation();
@@ -46,6 +48,7 @@ const AdminLayout: React.FC = () => {
     { label: "Blogs", path: "/admin/blogs", icon: <FiBookOpen /> },
     { label: "About", path: "/admin/about", icon: <FiUser /> },
     { label: "Tools", path: "/admin/tools", icon: <FiTool /> },
+    { label: "Ideas", path: "/admin/ideas", icon: <FiEdit3 /> },
   ];
 
   // Logic to hide/show side elements
@@ -89,13 +92,14 @@ const AdminLayout: React.FC = () => {
 
           {/* Action Section */}
           <div className={`${sideElementsClass} hidden sm:flex justify-end items-center pointer-events-auto`}>
-            <button 
+            <Button 
+              variant="ghost"
               onClick={handleLogout}
-              className="group flex items-center gap-2 text-[#919191] hover:text-red-400 transition-colors duration-300 text-xs font-bold uppercase tracking-widest"
+              className="group text-[#919191] hover:text-red-400 hover:bg-transparent uppercase tracking-widest gap-2"
             >
               <FiLogOut className="text-lg group-hover:translate-x-1 transition-transform" />
               <span>Sign Out</span>
-            </button>
+            </Button>
           </div>
         </div>
       </nav>
@@ -110,12 +114,14 @@ const AdminLayout: React.FC = () => {
       {/* Mobile Menu */}
       <div className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-fit">
         <div className="bg-[#1E1E1E]/80 backdrop-blur-2xl border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 shadow-2xl">
-           <button 
+           <Button 
+              variant="ghost"
+              icon
               onClick={handleLogout}
-              className="p-3 text-red-500"
+              className="text-red-500 hover:bg-red-500/10"
             >
               <FiLogOut className="text-xl" />
-            </button>
+            </Button>
         </div>
       </div>
     </div>

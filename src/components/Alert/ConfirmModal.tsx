@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { FiAlertCircle, FiX } from "react-icons/fi";
+import Button from "../Button";
 import type { ConfirmOptions } from "../../types";
 
 interface ConfirmModalProps {
@@ -19,6 +20,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   message,
   confirmText,
   cancelText,
+  type,
   onConfirm,
   onCancel,
 }) => {
@@ -49,12 +51,15 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         }}
       >
         {/* Close Button */}
-        <button
+        <Button
+          variant="ghost"
+          size="xs"
+          icon
           onClick={onCancel}
-          className="absolute top-6 right-6 p-2 text-[#919191] hover:text-white rounded-full hover:bg-white/5 transition-colors"
+          className="absolute top-6 right-6 text-[#919191]"
         >
           <FiX className="w-5 h-5" />
-        </button>
+        </Button>
 
         <div className="flex flex-col items-center text-center">
           {/* Icon Circle */}
@@ -70,18 +75,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3 w-full">
-            <button
+            <Button
+              variant="secondary"
               onClick={onCancel}
-              className="flex-1 py-3.5 px-5 rounded-xl text-xs font-bold tracking-widest uppercase text-[#919191] hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200"
+              className="flex-1"
             >
               {cancelText}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={type === "danger" ? "danger" : "primary"}
               onClick={onConfirm}
-              className="flex-1 py-3.5 px-5 rounded-xl text-xs font-bold tracking-widest uppercase text-black bg-[#C5C5C5] hover:bg-white transition-all duration-200 shadow-lg shadow-white/5"
+              className="flex-1"
             >
               {confirmText}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

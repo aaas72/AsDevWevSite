@@ -5,3 +5,4 @@ export * from "./toolService";
 export * from "./messageService";
 export * from "./storageService";
 export * from "./authService";
+export * from "./ideaService";

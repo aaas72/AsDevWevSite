@@ -111,12 +111,14 @@ const ManageTools: React.FC = () => {
           <h2 className="text-4xl font-bold tracking-tight text-[#C5C5C5]">Stacks & Tools</h2>
           <p className="text-[#919191] text-sm mt-2 tracking-wide font-medium">Manage your technical arsenal.</p>
         </div>
-        <button
+        <Button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-3 px-8 py-4 bg-[#C5C5C5] text-black rounded-2xl font-bold hover:bg-white transition-all duration-300 text-xs tracking-widest shadow-lg shadow-[#C5C5C5]/5"
+          variant="primary"
+          size="md"
+          className="gap-3"
         >
           <FiPlus className="text-lg" /> ADD STACK
-        </button>
+        </Button>
       </div>
 
       {loading ? (
@@ -124,8 +126,8 @@ const ManageTools: React.FC = () => {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {tools.map((tool) => (
-            <div key={tool.id} className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl flex flex-col items-center gap-4 group relative backdrop-blur-xl hover:border-white/20 transition-all duration-500">
-              <div className="w-16 h-16 bg-black/40 rounded-2xl flex items-center justify-center overflow-hidden p-3 grayscale group-hover:grayscale-0 transition-all duration-500">
+            <div key={tool.id} className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl flex flex-col items-center gap-4 group relative backdrop-blur-xl hover:border-white/20 transition-all duration-500">
+              <div className="w-16 h-16 bg-black/40 rounded-2xl flex items-center justify-center overflow-hidden p-3 transition-all duration-500">
                 {tool.icon_url ? (
                   <img src={tool.icon_url} alt={tool.name} className="w-full h-full object-contain" />
                 ) : (
@@ -138,8 +140,8 @@ const ManageTools: React.FC = () => {
               </div>
               
               <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 rounded-3xl backdrop-blur-sm">
-                <button onClick={() => handleOpenModal(tool)} className="p-3 bg-white/10 hover:bg-[#C5C5C5] rounded-xl text-[#C5C5C5] hover:text-black transition-all duration-300"><FiEdit2 /></button>
-                <button onClick={() => handleDelete(tool.id)} className="p-3 bg-white/10 hover:bg-red-500/20 rounded-xl text-red-400 transition-all duration-300"><FiTrash2 /></button>
+                <Button variant="secondary" size="sm" icon onClick={() => handleOpenModal(tool)}><FiEdit2 /></Button>
+                <Button variant="danger" size="sm" icon onClick={() => handleDelete(tool.id)}><FiTrash2 /></Button>
               </div>
             </div>
           ))}
@@ -150,12 +152,12 @@ const ManageTools: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
           <div className="w-full max-w-md bg-[#141414] border border-white/10 rounded-[3rem] shadow-3xl overflow-hidden no-scrollbar">
-            <div className="p-10 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-10">
+            <div className="px-10 py-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-20">
               <div>
                 <h3 className="text-2xl font-bold text-[#C5C5C5]">{editingTool ? "Refine Stack" : "New Stack"}</h3>
                 <p className="text-[#919191] text-[10px] uppercase tracking-[0.2em] mt-1 font-medium">Inventory Interface</p>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-white/5 rounded-full transition-colors text-gray-500 hover:text-white"><FiX size={24} /></button>
+              <Button variant="ghost" size="sm" icon onClick={() => setIsModalOpen(false)}><FiX size={24} /></Button>
             </div>
             <form onSubmit={handleSubmit} className="p-10 space-y-10">
               <div className="space-y-6">
@@ -191,10 +193,10 @@ const ManageTools: React.FC = () => {
                     <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden p-3 backdrop-blur-xl">
                       {formData.icon_url ? <img src={formData.icon_url} className="w-full h-full object-contain" /> : <div className="w-8 h-8 bg-white/5 rounded-full" />}
                     </div>
-                    <label className="flex-1 cursor-pointer px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all flex items-center justify-center gap-3 text-[#C5C5C5] text-xs font-bold">
+                    <Button as="label" variant="secondary" size="md" className="flex-1 gap-3">
                       <FiUploadCloud /> {uploading ? "..." : "UPLOAD ICON"}
                       <input type="file" className="hidden" accept="image/*" onChange={handleIconUpload} disabled={uploading} />
-                    </label>
+                    </Button>
                   </div>
                 </div>
               </div>

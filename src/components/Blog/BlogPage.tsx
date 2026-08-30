@@ -59,28 +59,25 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
         canonicalPath={`/blog/${blog.id}`}
       />
 
-      <div className="blog-header py-32">
+      <div className="blog-header pt-32 pb-12">
         <div className="container mx-auto px-6 max-w-4xl text-center">
-          <div className="tag inline-block bg-[#2A2A2A] text-xs text-[#C5C5C5] px-4 py-1.5 rounded-full mb-8 uppercase tracking-widest">
-            {blog.category}
-          </div>
           <h1 className="text-4xl md:text-5xl font-bold text-[#C5C5C5] leading-tight mb-8">
             {blog.title}
           </h1>
-          <div className="flex justify-center items-center gap-8 text-[#919191] text-sm uppercase tracking-widest">
-            <span>{blog.author}</span>
-            <span className="w-1 h-1 bg-[#919191] rounded-full"></span>
+          <div className="flex justify-center items-center gap-8 text-[#919191] text-sm uppercase tracking-widest flex-wrap">
             <span>{blog.date}</span>
+            <span>-</span>
+            <span>{blog.category}</span>
           </div>
         </div>
       </div>
 
-      {/* Large cover image - Full Width */}
-      <div className="blog-cover w-full overflow-hidden">
+      {/* Large cover image - Full Width, Fixed Height */}
+      <div className="blog-cover w-full h-[250px] md:h-[350px] overflow-hidden">
         <img
           src={blog.cover_image || blog.image_url}
           alt={blog.title}
-          className="w-full h-auto"
+          className="w-full h-full object-cover object-center"
         />
       </div>
 

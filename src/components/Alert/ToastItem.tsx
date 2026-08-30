@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiCheckCircle, FiAlertCircle, FiAlertTriangle, FiInfo, FiX } from "react-icons/fi";
+import Button from "../Button";
 import type { Toast } from "../../types";
 
 interface ToastItemProps {
@@ -75,13 +76,16 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
           </p>
         </div>
 
-        <button
+        <Button
+          variant="ghost"
+          size="xs"
+          icon
           onClick={handleClose}
-          className="p-1.5 text-[#919191] hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+          className="text-[#919191]"
           aria-label="Close notification"
         >
           <FiX className="w-4 h-4" />
-        </button>
+        </Button>
       </div>
 
       {toast.duration && toast.duration > 0 && (

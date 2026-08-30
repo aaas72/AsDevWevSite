@@ -247,7 +247,7 @@ const ManageAbout: React.FC = () => {
         {activeTab === "basic" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Profile Avatar Frame */}
-            <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6 text-center h-fit">
+            <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6 text-center h-fit">
               <div className="w-44 h-44 mx-auto rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl relative group bg-neutral-900 aspect-square">
                 {formData.profile_image ? (
                   <img
@@ -293,7 +293,7 @@ const ManageAbout: React.FC = () => {
 
             {/* Headline, Subheadline & Bio */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
+              <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
                 <h3 className="text-base font-bold text-white tracking-wide">Headline & Intro</h3>
                 <div className="space-y-4">
                   <div>
@@ -322,7 +322,7 @@ const ManageAbout: React.FC = () => {
               </div>
 
               {/* Bio Paragraphs */}
-              <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
+              <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
                 <h3 className="text-base font-bold text-white tracking-wide">Section 01: Professional Profile</h3>
                 <div className="space-y-4">
                   <div>
@@ -351,7 +351,7 @@ const ManageAbout: React.FC = () => {
               </div>
 
               {/* Direct Connect Contacts */}
-              <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
+              <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-5">
                 <h3 className="text-base font-bold text-white tracking-wide">Direct Connect Links</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -424,7 +424,7 @@ const ManageAbout: React.FC = () => {
         {/* TAB 02: Education                                            */}
         {/* ============================================================ */}
         {activeTab === "education" && (
-          <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
+          <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
             <h3 className="text-xl font-bold text-white tracking-wide">
               02. Education & Academic Background
             </h3>
@@ -499,7 +499,7 @@ const ManageAbout: React.FC = () => {
               <h3 className="text-xl font-bold text-white tracking-wide">
                 03. Professional Work Experience
               </h3>
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setWorkExperience([
@@ -514,29 +514,34 @@ const ManageAbout: React.FC = () => {
                     },
                   ])
                 }
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-neutral-200"
+                variant="primary"
+                size="sm"
+                className="gap-2 uppercase tracking-wider"
               >
                 <FiPlus /> Add Position
-              </button>
+              </Button>
             </div>
 
             <div className="space-y-6">
               {workExperience.map((exp, idx) => (
                 <div
                   key={idx}
-                  className="p-6 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
+                  className="p-6 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
                 >
                   <div className="flex justify-between items-center border-b border-white/10 pb-3">
                     <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">
                       Position #{idx + 1}
                     </span>
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setWorkExperience(workExperience.filter((_, i) => i !== idx))}
-                      className="text-red-400 hover:text-red-300 text-sm p-1"
+                      variant="ghost"
+                      size="xs"
+                      icon
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                     >
                       <FiTrash2 />
-                    </button>
+                    </Button>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -643,7 +648,7 @@ const ManageAbout: React.FC = () => {
               <h3 className="text-xl font-bold text-white tracking-wide">
                 04. Key Engineered Projects (2x2 Grid)
               </h3>
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setFeaturedProjects([
@@ -658,29 +663,34 @@ const ManageAbout: React.FC = () => {
                     },
                   ])
                 }
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-neutral-200"
+                variant="primary"
+                size="sm"
+                className="gap-2 uppercase tracking-wider"
               >
                 <FiPlus /> Add Project
-              </button>
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredProjects.map((proj, idx) => (
                 <div
                   key={idx}
-                  className="p-6 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
+                  className="p-6 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
                 >
                   <div className="flex justify-between items-center border-b border-white/10 pb-3">
                     <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">
                       Project #{idx + 1}
                     </span>
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setFeaturedProjects(featuredProjects.filter((_, i) => i !== idx))}
-                      className="text-red-400 hover:text-red-300 text-sm p-1"
+                      variant="ghost"
+                      size="xs"
+                      icon
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                     >
                       <FiTrash2 />
-                    </button>
+                    </Button>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
@@ -790,7 +800,7 @@ const ManageAbout: React.FC = () => {
               <h3 className="text-xl font-bold text-white tracking-wide">
                 05. Technical Skill Matrix
               </h3>
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setSkillCategories([
@@ -801,17 +811,19 @@ const ManageAbout: React.FC = () => {
                     },
                   ])
                 }
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-neutral-200"
+                variant="primary"
+                size="sm"
+                className="gap-2 uppercase tracking-wider"
               >
                 <FiPlus /> Add Category
-              </button>
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {skillCategories.map((cat, idx) => (
                 <div
                   key={idx}
-                  className="p-6 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
+                  className="p-6 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-4"
                 >
                   <div className="flex justify-between items-center border-b border-white/10 pb-2">
                     <input
@@ -824,13 +836,16 @@ const ManageAbout: React.FC = () => {
                       className="bg-transparent text-white font-bold text-sm uppercase tracking-wider outline-none focus:border-b border-white"
                       placeholder="Category Title"
                     />
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setSkillCategories(skillCategories.filter((_, i) => i !== idx))}
-                      className="text-red-400 hover:text-red-300 text-sm p-1"
+                      variant="ghost"
+                      size="xs"
+                      icon
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                     >
                       <FiTrash2 />
-                    </button>
+                    </Button>
                   </div>
 
                   <div>
@@ -860,12 +875,12 @@ const ManageAbout: React.FC = () => {
         {activeTab === "languages" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Spoken Languages */}
-            <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
+            <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
               <div className="flex justify-between items-center border-b border-white/10 pb-4">
                 <h3 className="text-lg font-bold text-white tracking-wide">
                   Language Proficiency
                 </h3>
-                <button
+                <Button
                   type="button"
                   onClick={() =>
                     setLanguages([
@@ -873,10 +888,12 @@ const ManageAbout: React.FC = () => {
                       { name: "", level: "", badge: "" },
                     ])
                   }
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-white text-xs font-bold hover:bg-white/20"
+                  variant="secondary"
+                  size="sm"
+                  className="gap-1.5"
                 >
                   <FiPlus /> Add Language
-                </button>
+                </Button>
               </div>
 
               <div className="space-y-4">
@@ -896,13 +913,16 @@ const ManageAbout: React.FC = () => {
                         placeholder="Language Name"
                         className="bg-transparent text-white font-bold text-sm outline-none"
                       />
-                      <button
+                      <Button
                         type="button"
                         onClick={() => setLanguages(languages.filter((_, i) => i !== idx))}
-                        className="text-red-400 hover:text-red-300 text-xs p-1"
+                        variant="ghost"
+                        size="xs"
+                        icon
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                       >
                         <FiTrash2 />
-                      </button>
+                      </Button>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
@@ -933,7 +953,7 @@ const ManageAbout: React.FC = () => {
             </div>
 
             {/* Soft Skills */}
-            <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
+            <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
               <h3 className="text-lg font-bold text-white tracking-wide border-b border-white/10 pb-4">
                 Professional Competencies
               </h3>
@@ -959,12 +979,12 @@ const ManageAbout: React.FC = () => {
         {/* TAB 07: Methodology & Values                                 */}
         {/* ============================================================ */}
         {activeTab === "methodology" && (
-          <div className="p-8 bg-[#171717]/60 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
+          <div className="p-8 bg-[#1A1A1A]/40 border border-white/5 rounded-3xl backdrop-blur-xl space-y-6">
             <div className="flex justify-between items-center border-b border-white/10 pb-4">
               <h3 className="text-xl font-bold text-white tracking-wide">
                 07. Methodology & Values
               </h3>
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setMethodologies([
@@ -972,10 +992,12 @@ const ManageAbout: React.FC = () => {
                     { title: "", text: "" },
                   ])
                 }
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-white text-xs font-bold hover:bg-white/20"
+                variant="secondary"
+                size="sm"
+                className="gap-1.5"
               >
                 <FiPlus /> Add Value
-              </button>
+              </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -985,13 +1007,16 @@ const ManageAbout: React.FC = () => {
                     <label className="text-[10px] text-[#919191] uppercase font-bold tracking-wider">
                       Item #{idx + 1}
                     </label>
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setMethodologies(methodologies.filter((_, i) => i !== idx))}
-                      className="text-red-400 hover:text-red-300 text-xs p-1"
+                      variant="ghost"
+                      size="xs"
+                      icon
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                     >
                       <FiTrash2 />
-                    </button>
+                    </Button>
                   </div>
                   <div>
                     <input

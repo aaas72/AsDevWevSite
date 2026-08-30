@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import type { Blog } from "../types";
+import { storageService } from "./storageService";
 
 export const blogService = {
   /**
@@ -75,6 +76,8 @@ export const blogService = {
    * Update an existing blog post.
    */
   async update(id: string, blogData: Partial<Blog>): Promise<Blog> {
+    const oldBlog = await this.getById(id).catch(() => null);
+
     const { data, error } = await supabase
       .from("blogs")
       .update(blogData)
@@ -83,6 +86,22 @@ export const blogService = {
       .single();
 
     if (error) throw error;
+
+    if (oldBlog) {
+      if (oldBlog.image_url && blogData.image_url !== undefined && oldBlog.image_url !== blogData.image_url) {
+        await storageService.deleteFile(oldBlog.image_url);
+      }
+      if (blogData.content !== undefined && oldBlog.content !== blogData.content) {
+        const oldUrls = storageService.extractImageUrls(oldBlog.content);
+        const newUrls = storageService.extractImageUrls(blogData.content);
+        for (const oldUrl of oldUrls) {
+          if (!newUrls.includes(oldUrl)) {
+            await storageService.deleteFile(oldUrl);
+          }
+        }
+      }
+    }
+
     return data;
   },
 
@@ -90,12 +109,26 @@ export const blogService = {
    * Delete a blog post by ID.
    */
   async delete(id: string): Promise<void> {
+    const oldBlog = await this.getById(id).catch(() => null);
+
     const { error } = await supabase
       .from("blogs")
       .delete()
       .eq("id", id);
 
     if (error) throw error;
+
+    if (oldBlog) {
+      if (oldBlog.image_url) {
+        await storageService.deleteFile(oldBlog.image_url);
+      }
+      if (oldBlog.content) {
+        const urls = storageService.extractImageUrls(oldBlog.content);
+        for (const url of urls) {
+          await storageService.deleteFile(url);
+        }
+      }
+    }
   },
 
   /**

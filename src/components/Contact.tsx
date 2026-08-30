@@ -117,12 +117,14 @@ const Contact: React.FC = () => {
                     <h4 className="text-3xl font-bold text-[#1A1A1A] tracking-tighter uppercase">Message Received</h4>
                     <p className="text-[#666] text-lg font-medium">Your inquiry has been successfully logged. I will be in touch shortly.</p>
                   </div>
-                  <button 
+                  <Button 
+                    variant="ghost"
+                    theme="light"
                     onClick={() => setSubmitted(false)}
-                    className="text-[10px] font-bold text-[#1A1A1A] uppercase tracking-[0.3em] border-b border-black pb-1 hover:text-[#919191] hover:border-[#919191] transition-all"
+                    className="w-fit border-b border-black rounded-none pb-1 uppercase tracking-[0.3em] hover:text-[#919191] hover:border-[#919191] text-[10px]"
                   >
                     Send Another Inquiry
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <form className="space-y-6" onSubmit={handleSubmit}>
@@ -171,8 +173,9 @@ const Contact: React.FC = () => {
                     type="submit"
                     disabled={loading}
                     variant="outline"
+                    theme="light"
                     size="lg"
-                    className="w-fit gap-3 text-black border-black hover:bg-black hover:text-white text-[10px] uppercase tracking-[0.3em]"
+                    className="w-fit gap-3 uppercase tracking-[0.3em]"
                   >
                     {loading ? "Sending..." : "Send Message"} <FiSend className="transition-transform group-hover:translate-x-1" />
                   </Button>

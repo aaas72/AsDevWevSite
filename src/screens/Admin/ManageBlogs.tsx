@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { blogService, storageService } from "../../services";
-import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
+import ImageUpload from "../../components/ImageUpload";
 import TipTapEditor from "../../components/TipTapEditor";
 import { useAlert } from "../../context/AlertContext";
+import BlogCard from "../../components/Cards/BlogCard";
 import type { Blog } from "../../types";
 
 const ManageBlogs: React.FC = () => {
@@ -148,37 +150,37 @@ const ManageBlogs: React.FC = () => {
           <h2 className="text-4xl font-bold tracking-tight text-[#C5C5C5]">Blogs</h2>
           <p className="text-[#919191] text-sm mt-2 tracking-wide font-medium">Broadcast your technical insights.</p>
         </div>
-        <button
+        <Button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-3 px-8 py-4 bg-[#C5C5C5] text-black rounded-2xl font-bold hover:bg-white transition-all duration-300 text-xs tracking-widest shadow-lg shadow-[#C5C5C5]/5"
+          variant="primary"
+          size="md"
+          className="gap-3"
         >
           <FiPlus className="text-lg" /> CREATE POST
-        </button>
+        </Button>
       </div>
 
       {loading ? (
         <div className="text-center py-24 text-[#919191] animate-pulse tracking-widest text-xs font-medium">SYNCING ARTICLES...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {blogs.map((blog) => (
-            <div key={blog.id} className="group bg-[#171717]/60 border border-white/5 rounded-3xl overflow-hidden backdrop-blur-xl hover:border-white/20 transition-all duration-500">
-              <div className="aspect-[16/9] bg-black/40 overflow-hidden relative">
-                {blog.image_url ? (
-                  <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-800 text-[10px] tracking-widest font-bold">NO THUMBNAIL</div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171717] to-transparent opacity-60"></div>
-              </div>
-              <div className="p-8">
-                <div className="text-[10px] text-[#919191] uppercase tracking-[0.3em] mb-2 font-bold">{blog.category}</div>
-                <h3 className="text-xl font-bold text-white truncate group-hover:text-[#C5C5C5] transition-colors">{blog.title}</h3>
-                <div className="mt-8 flex items-center gap-3">
-                  <button onClick={() => handleOpenModal(blog)} className="p-3 bg-white/5 hover:bg-[#C5C5C5] rounded-xl text-[#C5C5C5] hover:text-black transition-all duration-300"><FiEdit2 /></button>
-                  <button onClick={() => handleDelete(blog.id)} className="p-3 bg-white/5 hover:bg-red-500/20 rounded-xl text-red-400 transition-all duration-300"><FiTrash2 /></button>
-                </div>
-              </div>
-            </div>
+            <BlogCard
+              key={blog.id}
+              id={blog.id}
+              title={blog.title}
+              shortDescription={blog.short_description}
+              category={blog.category}
+              date={new Date(blog.created_at || Date.now()).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+              })}
+              imageUrl={blog.image_url}
+              isAdmin={true}
+              onEdit={() => handleOpenModal(blog)}
+              onDelete={() => handleDelete(blog.id)}
+            />
           ))}
         </div>
       )}
@@ -187,12 +189,12 @@ const ManageBlogs: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
           <div className="w-full max-w-4xl bg-[#141414] border border-white/10 rounded-3xl shadow-3xl overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar">
-            <div className="p-10 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-10">
+            <div className="px-10 py-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-20">
               <div>
                 <h3 className="text-2xl font-bold text-[#C5C5C5]">{editingBlog ? "Refine Article" : "Draft New Post"}</h3>
                 <p className="text-[#919191] text-[10px] uppercase tracking-[0.2em] mt-1 font-medium">Editorial Interface</p>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-white/5 rounded-full transition-colors text-gray-500 hover:text-white"><FiX size={24} /></button>
+              <Button variant="ghost" size="sm" icon onClick={() => setIsModalOpen(false)}><FiX size={24} /></Button>
             </div>
             <form onSubmit={handleSubmit} className="p-10 space-y-10">
               <div className="grid grid-cols-2 gap-10">
@@ -230,50 +232,22 @@ const ManageBlogs: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-10">
-                <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Preview Image</label>
-                  <div className="relative group/upload h-40 bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-white/20">
-                    {formData.image_url ? (
-                      <div className="relative w-full h-full group">
-                        <img src={formData.image_url} alt="Thumbnail" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <label className="cursor-pointer px-4 py-2 bg-white text-black rounded-lg text-[10px] font-bold tracking-widest">
-                            CHANGE THUMBNAIL
-                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "image_url")} disabled={!!uploading} />
-                          </label>
-                        </div>
-                      </div>
-                    ) : (
-                      <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer group-hover:bg-white/5 transition-colors">
-                        <FiUploadCloud className="text-2xl text-[#919191] mb-2" />
-                        <span className="text-[10px] font-bold tracking-widest text-[#919191]">{uploading === "image_url" ? "UPLOADING..." : "UPLOAD THUMBNAIL"}</span>
-                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "image_url")} disabled={!!uploading} />
-                      </label>
-                    )}
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Hero Image</label>
-                  <div className="relative group/upload h-40 bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-white/20">
-                    {formData.cover_image ? (
-                      <div className="relative w-full h-full group">
-                        <img src={formData.cover_image} alt="Hero" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <label className="cursor-pointer px-4 py-2 bg-white text-black rounded-lg text-[10px] font-bold tracking-widest">
-                            CHANGE HERO
-                            <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "cover_image")} disabled={!!uploading} />
-                          </label>
-                        </div>
-                      </div>
-                    ) : (
-                      <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer group-hover:bg-white/5 transition-colors">
-                        <FiUploadCloud className="text-2xl text-[#919191] mb-2" />
-                        <span className="text-[10px] font-bold tracking-widest text-[#919191]">{uploading === "cover_image" ? "UPLOADING..." : "UPLOAD HERO"}</span>
-                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "cover_image")} disabled={!!uploading} />
-                      </label>
-                    )}
-                  </div>
-                </div>
+                <ImageUpload
+                  label="Preview Image"
+                  value={formData.image_url}
+                  onChange={(e) => handleImageUpload(e, "image_url")}
+                  isUploading={uploading === "image_url"}
+                  dimensions="800x1000 (4:5)"
+                  uploadText="THUMBNAIL"
+                />
+                <ImageUpload
+                  label="Hero Image"
+                  value={formData.cover_image}
+                  onChange={(e) => handleImageUpload(e, "cover_image")}
+                  isUploading={uploading === "cover_image"}
+                  dimensions="1920x600 (3:1)"
+                  uploadText="HERO"
+                />
               </div>
 
               <div className="space-y-3">

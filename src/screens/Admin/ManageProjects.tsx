@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { projectService, storageService } from "../../services";
-import { FiPlus, FiTrash2, FiEdit2, FiX, FiUploadCloud, FiExternalLink, FiImage } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiX } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
+import ImageUpload from "../../components/ImageUpload";
 import TipTapEditor from "../../components/TipTapEditor";
 import { useAlert } from "../../context/AlertContext";
+import BlogCard from "../../components/Cards/BlogCard";
 import type { Project, ProjectResult } from "../../types";
 
 const ManageProjects: React.FC = () => {
@@ -185,39 +187,37 @@ const ManageProjects: React.FC = () => {
           <h2 className="text-4xl font-bold tracking-tight text-[#C5C5C5]">Projects</h2>
           <p className="text-[#919191] text-sm mt-2 tracking-wide font-medium">Curate your portfolio masterpieces.</p>
         </div>
-        <button
+        <Button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-3 px-8 py-4 bg-[#C5C5C5] text-black rounded-2xl font-bold hover:bg-white transition-all duration-300 text-xs tracking-widest shadow-lg shadow-[#C5C5C5]/5"
+          variant="primary"
+          size="md"
+          className="gap-3"
         >
           <FiPlus className="text-lg" /> ADD PROJECT
-        </button>
+        </Button>
       </div>
 
       {loading ? (
         <div className="text-center py-24 text-[#919191] animate-pulse tracking-widest text-xs">SYNCHRONIZING DATABASE...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {projects.map((project) => (
-            <div key={project.id} className="group bg-[#171717]/60 border border-white/5 rounded-[2rem] overflow-hidden backdrop-blur-xl hover:border-white/20 transition-all duration-500">
-              <div className="aspect-video bg-black/40 overflow-hidden relative">
-                {project.image_url ? (
-                  <img src={project.image_url} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-800 text-xs tracking-widest">NO PREVIEW</div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171717] to-transparent opacity-60"></div>
-              </div>
-              <div className="p-8">
-                <div className="text-[10px] text-[#919191] uppercase tracking-[0.3em] mb-2 font-bold">{project.category || "Uncategorized"}</div>
-                <h3 className="text-xl font-bold text-white truncate group-hover:text-[#C5C5C5] transition-colors">{project.title}</h3>
-                <div className="mt-8 flex items-center gap-3">
-                  <button onClick={() => handleOpenModal(project)} className="p-3 bg-white/5 hover:bg-[#C5C5C5] rounded-xl text-[#C5C5C5] hover:text-black transition-all duration-300"><FiEdit2 /></button>
-                  <button onClick={() => handleDelete(project.id)} className="p-3 bg-white/5 hover:bg-red-500/20 rounded-xl text-red-400 transition-all duration-300"><FiTrash2 /></button>
-                  <div className="flex-1"></div>
-                  {project.website && <a href={project.website} target="_blank" rel="noreferrer" className="text-[#919191] hover:text-white transition-colors"><FiExternalLink /></a>}
-                </div>
-              </div>
-            </div>
+            <BlogCard
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              shortDescription={project.short_description || project.category || "Uncategorized"}
+              category={project.category || "Uncategorized"}
+              date={new Date(project.created_at || Date.now()).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+              })}
+              imageUrl={project.image_url}
+              isAdmin={true}
+              onEdit={() => handleOpenModal(project)}
+              onDelete={() => handleDelete(project.id)}
+            />
           ))}
         </div>
       )}
@@ -226,12 +226,12 @@ const ManageProjects: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
           <div className="w-full max-w-4xl bg-[#141414] border border-white/10 rounded-[3rem] shadow-3xl overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar">
-            <div className="p-10 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-10">
+            <div className="px-10 py-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#141414]/80 backdrop-blur-xl z-20">
               <div>
                 <h3 className="text-2xl font-bold text-[#C5C5C5]">{editingProject ? "Refine Project" : "Forge New Project"}</h3>
                 <p className="text-[#919191] text-[10px] uppercase tracking-[0.2em] mt-1 font-medium">Drafting Interface</p>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-white/5 rounded-full transition-colors text-gray-500 hover:text-white"><FiX size={24} /></button>
+              <Button variant="ghost" size="sm" icon onClick={() => setIsModalOpen(false)}><FiX size={24} /></Button>
             </div>
             <form onSubmit={handleSubmit} className="p-10 space-y-10">
               <div className="grid grid-cols-2 gap-10">
@@ -341,40 +341,22 @@ const ManageProjects: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-10">
-                <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Thumbnail Image</label>
-                  <div className="flex items-center gap-4">
-                    <div className="relative flex-1">
-                      <input
-                        value={formData.image_url}
-                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl outline-none text-[#C5C5C5] text-xs"
-                        placeholder="Image URL"
-                      />
-                    </div>
-                    <label className="cursor-pointer px-6 py-4 bg-white text-black rounded-2xl hover:bg-[#C5C5C5] transition-all font-bold text-[10px] tracking-widest flex items-center gap-2">
-                      <FiUploadCloud /> {uploading === "image_url" ? "..." : "UPLOAD"}
-                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "image_url")} disabled={!!uploading} />
-                    </label>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] text-[#919191] uppercase tracking-[0.2em] font-bold ml-1">Cover Image (Header)</label>
-                  <div className="flex items-center gap-4">
-                    <div className="relative flex-1">
-                      <input
-                        value={formData.cover_image}
-                        onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
-                        className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl outline-none text-[#C5C5C5] text-xs"
-                        placeholder="Cover URL"
-                      />
-                    </div>
-                    <label className="cursor-pointer px-6 py-4 bg-white text-black rounded-2xl hover:bg-[#C5C5C5] transition-all font-bold text-[10px] tracking-widest flex items-center gap-2">
-                      <FiUploadCloud /> {uploading === "cover_image" ? "..." : "UPLOAD"}
-                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "cover_image")} disabled={!!uploading} />
-                    </label>
-                  </div>
-                </div>
+                <ImageUpload
+                  label="Thumbnail Image"
+                  value={formData.image_url}
+                  onChange={(e) => handleImageUpload(e, "image_url")}
+                  isUploading={uploading === "image_url"}
+                  dimensions="1280x720 (16:9)"
+                  uploadText="THUMBNAIL"
+                />
+                <ImageUpload
+                  label="Cover Image (Header)"
+                  value={formData.cover_image}
+                  onChange={(e) => handleImageUpload(e, "cover_image")}
+                  isUploading={uploading === "cover_image"}
+                  dimensions="1920x1080 (16:9)"
+                  uploadText="COVER"
+                />
               </div>
 
               {/* Dynamic Results Section */}
@@ -384,25 +366,30 @@ const ManageProjects: React.FC = () => {
                     <h4 className="text-lg font-bold text-[#C5C5C5] tracking-tight">Project Results & Pages</h4>
                     <p className="text-[10px] text-[#919191] uppercase tracking-[0.2em] mt-1">Unlimited Detail Sections</p>
                   </div>
-                  <button
+                  <Button
                     type="button"
                     onClick={addResult}
-                    className="p-3 bg-white/5 hover:bg-white text-white hover:text-black rounded-xl transition-all"
+                    variant="secondary"
+                    size="sm"
+                    icon
                   >
                     <FiPlus size={20} />
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="space-y-8">
                   {formData.results.map((result, index) => (
                     <div key={index} className="p-8 bg-white/5 border border-white/5 rounded-[2rem] space-y-6 relative group">
-                      <button
+                      <Button
                         type="button"
                         onClick={() => removeResult(index)}
-                        className="absolute top-6 right-6 p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                        variant="danger"
+                        size="sm"
+                        icon
+                        className="absolute top-6 right-6 opacity-0 group-hover:opacity-100"
                       >
                         <FiTrash2 />
-                      </button>
+                      </Button>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-6">
@@ -427,26 +414,14 @@ const ManageProjects: React.FC = () => {
                           </div>
                         </div>
                         
-                        <div className="space-y-3">
-                          <label className="text-[8px] text-[#919191] uppercase tracking-[0.2em] font-bold">Result Image</label>
-                          <div className="aspect-video bg-black/40 rounded-xl overflow-hidden relative group/img">
-                            {result.imageUrl ? (
-                              <img src={result.imageUrl} className="w-full h-full object-cover" alt="Result" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-gray-700"><FiImage size={32} /></div>
-                            )}
-                            <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                              <FiUploadCloud className="text-2xl text-white" />
-                              <input 
-                                type="file" 
-                                className="hidden" 
-                                accept="image/*" 
-                                onChange={(e) => handleImageUpload(e, `result_${index}`, index)} 
-                                disabled={!!uploading} 
-                              />
-                            </label>
-                          </div>
-                        </div>
+                        <ImageUpload
+                          label="Result Image"
+                          value={result.imageUrl || ""}
+                          onChange={(e) => handleImageUpload(e, `result_${index}`, index)}
+                          isUploading={uploading === `result_${index}`}
+                          dimensions="1280x720 (16:9)"
+                          uploadText="IMAGE"
+                        />
                       </div>
                     </div>
                   ))}

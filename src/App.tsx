@@ -10,6 +10,7 @@ import ManageBlogs from "./screens/Admin/ManageBlogs";
 import ManageTools from "./screens/Admin/ManageTools";
 import ManageAbout from "./screens/Admin/ManageAbout";
 import ManageMessages from "./screens/Admin/ManageMessages";
+import ManageIdeas from "./screens/Admin/ManageIdeas";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AlertProvider } from "./context/AlertContext";
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="projects" element={<ManageProjects />} />
               <Route path="blogs" element={<ManageBlogs />} />
               <Route path="tools" element={<ManageTools />} />
+              <Route path="ideas" element={<ManageIdeas />} />
             </Route>
           </Route>
         </Routes>

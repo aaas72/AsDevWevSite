@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import type { Project } from "../types";
+import { storageService } from "./storageService";
 
 export const projectService = {
   /**
@@ -61,6 +62,8 @@ export const projectService = {
    * Update an existing project.
    */
   async update(id: string, projectData: Partial<Project>): Promise<Project> {
+    const oldProject = await this.getById(id).catch(() => null);
+
     const { data, error } = await supabase
       .from("projects")
       .update(projectData)
@@ -69,6 +72,26 @@ export const projectService = {
       .single();
 
     if (error) throw error;
+
+    if (oldProject) {
+      if (oldProject.image_url && projectData.image_url !== undefined && oldProject.image_url !== projectData.image_url) {
+        await storageService.deleteFile(oldProject.image_url);
+      }
+      if (oldProject.cover_image && projectData.cover_image !== undefined && oldProject.cover_image !== projectData.cover_image) {
+        await storageService.deleteFile(oldProject.cover_image);
+      }
+      if (projectData.results !== undefined) {
+        const oldResultUrls = oldProject.results?.map((r) => r.imageUrl).filter(Boolean) || [];
+        const newResultUrls = projectData.results?.map((r) => r.imageUrl).filter(Boolean) || [];
+        for (const oldUrl of oldResultUrls) {
+          if (oldUrl && !newResultUrls.includes(oldUrl)) {
+            await storageService.deleteFile(oldUrl);
+          }
+        }
+      }
+
+    }
+
     return data;
   },
 
@@ -76,12 +99,31 @@ export const projectService = {
    * Delete a project by ID.
    */
   async delete(id: string): Promise<void> {
+    const oldProject = await this.getById(id).catch(() => null);
+
     const { error } = await supabase
       .from("projects")
       .delete()
       .eq("id", id);
 
     if (error) throw error;
+
+    if (oldProject) {
+      if (oldProject.image_url) {
+        await storageService.deleteFile(oldProject.image_url);
+      }
+      if (oldProject.cover_image) {
+        await storageService.deleteFile(oldProject.cover_image);
+      }
+      if (oldProject.results) {
+        for (const result of oldProject.results) {
+          if (result.imageUrl) {
+            await storageService.deleteFile(result.imageUrl);
+          }
+        }
+      }
+
+    }
   },
 
   /**
