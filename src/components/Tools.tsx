@@ -138,14 +138,14 @@ const Tools: React.FC<ToolsProps> = ({ bgColor }) => {
 
   const backgroundStyle = bgColor
     ? { background: bgColor }
-    : { background: "linear-gradient(to bottom, #000000b1, transparent, transparent)" };
+    : undefined;
 
   return (
     <section
       ref={sectionRef}
       className="relative w-full min-h-[400px] py-16 flex items-center justify-center select-none overflow-hidden"
     >
-      <div className="absolute inset-0 z-0" style={backgroundStyle}></div>
+      {backgroundStyle && <div className="absolute inset-0 z-0" style={backgroundStyle}></div>}
       <div className="relative z-10 max-w-6xl w-full px-6 mx-auto flex flex-col items-center justify-center">
         {/* Title with smooth fade-in-up - Direction Aware */}
         <h3
@@ -176,42 +176,30 @@ const Tools: React.FC<ToolsProps> = ({ bgColor }) => {
                 return (
                   <div
                     key={tool.id}
-                    className="tool-item flex flex-col items-center justify-center text-center min-w-[80px]"
+                    className="tool-item group flex flex-col items-center justify-center text-center min-w-[80px] cursor-default transition-all duration-300"
                     style={{
                       opacity: isVisible ? 1 : 0,
                       transform: isVisible ? "translateY(0) scale(1)" : `translateY(${yOffset}px) scale(0.85)`,
                       filter: isVisible ? "blur(0px)" : "blur(6px)",
-                      transition: `opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 55}ms, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 55}ms, filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 55}ms`,
+                      transition: `opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 35}ms, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 35}ms, filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${index * 35}ms`,
                     }}
                   >
-                  <div
-                    className="tool-icon w-12 h-12 mb-3 flex items-center justify-center will-change-[filter,opacity]"
-                    style={{
-                      filter: "grayscale(calc(100% - (var(--intensity, 0) * 100%)))",
-                      opacity: "calc(0.35 + (var(--intensity, 0) * 0.65))",
-                    }}
-                  >
-                    {tool.icon_url ? (
-                      <img
-                        src={tool.icon_url}
-                        alt={tool.name}
-                        className="w-full h-full object-contain pointer-events-none"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 bg-white/10 rounded-full" />
-                    )}
+                    <div className="tool-icon w-12 h-12 mb-3 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                      {tool.icon_url ? (
+                        <img
+                          src={tool.icon_url}
+                          alt={tool.name}
+                          className="w-full h-full object-contain pointer-events-none opacity-100 drop-shadow-sm"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-white/20 rounded-full" />
+                      )}
+                    </div>
+                    <span className="tool-name text-xs tracking-wide text-[#E5E5E5] font-medium transition-colors duration-300 group-hover:text-white">
+                      {tool.name}
+                    </span>
                   </div>
-                  <span
-                    className="tool-name text-xs tracking-wide will-change-[color,opacity]"
-                    style={{
-                      color: "color-mix(in srgb, #ffffff calc(var(--intensity, 0) * 100%), #C5C5C5)",
-                      opacity: "calc(0.35 + (var(--intensity, 0) * 0.65))",
-                    }}
-                  >
-                    {tool.name}
-                  </span>
-                </div>
-              );
+                );
             })}
           </div>
           </div>

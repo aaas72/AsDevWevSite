@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { aboutService } from "../services";
 import {
   FiGithub,
@@ -26,9 +26,6 @@ import type {
 const AboutMe: React.FC = () => {
   const [content, setContent] = useState<AboutContent | null>(null);
   const [loading, setLoading] = useState(true);
-  const [currentIdx, setCurrentIdx] = useState<number>(0);
-  const isTransitioningRef = useRef<boolean>(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -573,119 +570,25 @@ const AboutMe: React.FC = () => {
     });
   }
 
-  const totalSections = sectionList.length;
-
-  // Non-passive wheel event binding to strictly lock page scroll until reaching boundaries
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || totalSections === 0) return;
-
-    const handleNativeWheel = (e: WheelEvent) => {
-      if (isTransitioningRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-
-      const delta = e.deltaY;
-
-      if (delta > 15) {
-        // Scrolling Down
-        if (currentIdx < totalSections - 1) {
-          e.preventDefault();
-          e.stopPropagation();
-          isTransitioningRef.current = true;
-          setCurrentIdx((prev) => prev + 1);
-          setTimeout(() => {
-            isTransitioningRef.current = false;
-          }, 550);
-        }
-        // At last section -> do not prevent default, allow page to scroll down
-      } else if (delta < -15) {
-        // Scrolling Up
-        if (currentIdx > 0) {
-          e.preventDefault();
-          e.stopPropagation();
-          isTransitioningRef.current = true;
-          setCurrentIdx((prev) => prev - 1);
-          setTimeout(() => {
-            isTransitioningRef.current = false;
-          }, 550);
-        }
-        // At first section -> do not prevent default, allow page to scroll up
-      }
-    };
-
-    let touchStartY = 0;
-
-    const handleNativeTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-
-    const handleNativeTouchMove = (e: TouchEvent) => {
-      const touchCurrentY = e.touches[0].clientY;
-      const diff = touchStartY - touchCurrentY;
-
-      if (diff > 10 && currentIdx < totalSections - 1) {
-        e.preventDefault();
-      } else if (diff < -10 && currentIdx > 0) {
-        e.preventDefault();
-      }
-    };
-
-    const handleNativeTouchEnd = (e: TouchEvent) => {
-      if (isTransitioningRef.current) return;
-      const touchEndY = e.changedTouches[0].clientY;
-      const diff = touchStartY - touchEndY;
-
-      if (diff > 35 && currentIdx < totalSections - 1) {
-        isTransitioningRef.current = true;
-        setCurrentIdx((prev) => prev + 1);
-        setTimeout(() => {
-          isTransitioningRef.current = false;
-        }, 550);
-      } else if (diff < -35 && currentIdx > 0) {
-        isTransitioningRef.current = true;
-        setCurrentIdx((prev) => prev - 1);
-        setTimeout(() => {
-          isTransitioningRef.current = false;
-        }, 550);
-      }
-    };
-
-    el.addEventListener("wheel", handleNativeWheel, { passive: false });
-    el.addEventListener("touchstart", handleNativeTouchStart, { passive: true });
-    el.addEventListener("touchmove", handleNativeTouchMove, { passive: false });
-    el.addEventListener("touchend", handleNativeTouchEnd, { passive: true });
-
-    return () => {
-      el.removeEventListener("wheel", handleNativeWheel);
-      el.removeEventListener("touchstart", handleNativeTouchStart);
-      el.removeEventListener("touchmove", handleNativeTouchMove);
-      el.removeEventListener("touchend", handleNativeTouchEnd);
-    };
-  }, [currentIdx, totalSections]);
-
   if (loading) return <Loading />;
 
   return (
     <section
-      ref={sectionRef}
       data-theme="light"
-      className="relative w-full h-screen bg-white text-[#1A1A1A] overflow-hidden select-none flex items-center"
+      className="relative w-full min-h-screen bg-white text-[#1A1A1A] py-12 sm:py-16 md:py-20"
     >
-      <div className="container mx-auto px-6 max-w-7xl h-full py-8 flex flex-col justify-center">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch h-full overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
           
           {/* ============================================================ */}
-          {/* LEFT COLUMN: Responsive Profile Card & Connect Links         */}
+          {/* LEFT COLUMN: Sticky Responsive Profile Card & Connect Links */}
           {/* ============================================================ */}
-          <aside className="w-full lg:w-[240px] xl:w-[260px] flex-shrink-0 flex flex-col justify-between overflow-y-auto lg:h-full pr-1 pb-4 lg:pb-0 border-b lg:border-b-0 border-gray-100">
-            <div className="space-y-3">
-              {/* Mobile Compact Header / Desktop Full 1:1 Card */}
+          <aside className="w-full lg:w-[260px] xl:w-[280px] flex-shrink-0 lg:sticky lg:top-28 self-start space-y-6 pb-6 lg:pb-0 border-b lg:border-b-0 border-gray-100">
+            <div className="space-y-4">
+              {/* Profile Image & Name */}
               <div className="flex lg:flex-col items-center lg:items-start gap-4">
                 {display.profile_image && (
-                  <div className="group relative rounded-2xl overflow-hidden bg-gray-50 border border-gray-200/80 shadow-sm transition-all duration-500 hover:shadow-lg aspect-square w-16 h-16 lg:w-full lg:h-auto flex-shrink-0">
+                  <div className="group relative rounded-2xl overflow-hidden bg-gray-50 border border-gray-200/80 shadow-sm transition-all duration-500 hover:shadow-lg aspect-square w-20 h-20 lg:w-full lg:h-auto flex-shrink-0">
                     <img
                       src={display.profile_image}
                       alt={display.name}
@@ -694,24 +597,19 @@ const AboutMe: React.FC = () => {
                   </div>
                 )}
                 <div className="flex flex-col min-w-0">
-                  <div className="flex items-baseline gap-1.5 flex-wrap">
-                    <p className="text-[#111] text-base lg:text-sm font-bold tracking-tight truncate">
-                      {display.name}
-                    </p>
-                    <span className="text-[#555] text-xs font-medium" dir="rtl">
-                      (عبداللاه شيخ)
-                    </span>
-                  </div>
-                  <p className="text-[#666] text-xs lg:text-[10px] font-medium">
-                    Software Engineer • مهندس برمجيات
+                  <p className="text-[#111] text-lg lg:text-base font-bold tracking-tight truncate">
+                    {display.name}
+                  </p>
+                  <p className="text-[#666] text-xs font-medium mt-0.5">
+                    Software Engineer
                   </p>
                 </div>
               </div>
 
               {/* Connect & Contact Information */}
               {contactLinks.length > 0 && (
-                <div className="space-y-1.5 pt-1">
-                  <h3 className="hidden lg:block text-[10px] font-bold text-[#919191] uppercase tracking-[0.25em]">
+                <div className="space-y-2 pt-2">
+                  <h3 className="text-[10px] font-bold text-[#919191] uppercase tracking-[0.25em]">
                     Direct Connect
                   </h3>
                   <div className="flex flex-row lg:flex-col flex-wrap gap-2 lg:gap-0 lg:divide-y lg:divide-gray-100">
@@ -723,9 +621,9 @@ const AboutMe: React.FC = () => {
                           link.url.startsWith("http") ? "_blank" : undefined
                         }
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 lg:gap-3.5 group py-1 lg:py-2 transition-all duration-300"
+                        className="flex items-center gap-2.5 lg:gap-3.5 group py-1.5 lg:py-2.5 transition-all duration-300"
                       >
-                        <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-lg bg-gray-50 border border-gray-200/80 flex items-center justify-center text-xs lg:text-sm text-[#737373] group-hover:text-black group-hover:border-black group-hover:bg-white group-hover:shadow-sm transition-all duration-300 flex-shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-200/80 flex items-center justify-center text-xs lg:text-sm text-[#737373] group-hover:text-black group-hover:border-black group-hover:bg-white group-hover:shadow-sm transition-all duration-300 flex-shrink-0">
                           {link.icon}
                         </div>
                         <div className="hidden lg:flex flex-col min-w-0">
@@ -745,48 +643,33 @@ const AboutMe: React.FC = () => {
           </aside>
 
           {/* ============================================================ */}
-          {/* RIGHT COLUMN: Dedicated Locked Vertical Sliding Stage        */}
+          {/* RIGHT COLUMN: Full Flowing Direct CV Display                 */}
           {/* ============================================================ */}
-          <main className="w-full lg:flex-1 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-8 pt-8 lg:pt-0 flex flex-col justify-between overflow-hidden h-full">
+          <main className="w-full lg:flex-1 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-10 pt-8 lg:pt-0 space-y-12 sm:space-y-16">
             
-            {/* Header Intro Summary (Persistent) */}
-            <header className="space-y-2 pb-4 flex-shrink-0">
-              {display.headline && (
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#111] leading-[1.15]">
-                  {display.headline}
-                </h1>
-              )}
-              {display.sub_headline && (
-                <p className="text-base sm:text-lg text-[#444] leading-[1.45] font-normal">
-                  {display.sub_headline}
-                </p>
-              )}
-            </header>
+            {/* Header Intro Summary */}
+            {(display.headline || display.sub_headline) && (
+              <header className="space-y-3 pb-6 border-b border-gray-100">
+                {display.headline && (
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111] leading-[1.15]">
+                    {display.headline}
+                  </h1>
+                )}
+                {display.sub_headline && (
+                  <p className="text-base sm:text-lg md:text-xl text-[#444] leading-[1.5] font-normal">
+                    {display.sub_headline}
+                  </p>
+                )}
+              </header>
+            )}
 
-            {/* Physical Vertical Sliding Track - Locked until boundaries */}
-            <div className="flex-1 relative overflow-hidden h-[calc(100%-4.5rem)]">
-              <div
-                className="w-full h-full transition-transform duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col"
-                style={{
-                  transform: `translate3d(0, -${currentIdx * 100}%, 0)`,
-                }}
-              >
-                {sectionList.map((sec, idx) => {
-                  const isCurrent = idx === currentIdx;
-                  return (
-                    <div
-                      key={sec.id}
-                      className={`w-full h-full min-h-full flex-shrink-0 overflow-y-auto pr-2 py-1 transition-all duration-600 ${
-                        isCurrent
-                          ? "opacity-100 scale-100 filter-none"
-                          : "opacity-10 scale-[0.98] blur-[1px] pointer-events-none"
-                      }`}
-                    >
-                      {sec.render()}
-                    </div>
-                  );
-                })}
-              </div>
+            {/* Direct Sections Sequence */}
+            <div className="space-y-12 sm:space-y-16">
+              {sectionList.map((sec) => (
+                <div key={sec.id} className="w-full">
+                  {sec.render()}
+                </div>
+              ))}
             </div>
 
           </main>

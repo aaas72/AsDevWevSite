@@ -30,11 +30,11 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <div className="text-sm text-[#C5C5C5]">
-              © {new Date().getFullYear()} Abdellah Sheikh (عبداللاه شيخ). All rights reserved.
+              © {new Date().getFullYear()} Abdellah Sheikh. All rights reserved.
             </div>
           </div>
 
-          {/* القسم الثاني: سياسة الخصوصية ومعلومات المطور */}
+          {/* Privacy Policy & Developer Info */}
           <div className="flex flex-col space-y-4 p-4 items-end">
             <a
               href="/privacy"

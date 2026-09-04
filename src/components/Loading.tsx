@@ -8,9 +8,6 @@ const Loading: React.FC = () => {
         <div className="text-2xl sm:text-3xl font-bold tracking-[0.25em] text-[#E5E5E5] animate-pulse uppercase">
           Abdellah Sheikh
         </div>
-        <p className="text-xs text-[#888] font-medium mt-1 tracking-widest" dir="rtl">
-          عبداللاه شيخ
-        </p>
         
         {/* Minimal Progress Bar */}
         <div className="mt-8 w-48 h-[1px] bg-white/5 overflow-hidden">

@@ -391,36 +391,41 @@ const ManageProjects: React.FC = () => {
                         <FiTrash2 />
                       </Button>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-6">
-                          <div className="space-y-2">
-                            <label className="text-[8px] text-[#919191] uppercase tracking-[0.2em] font-bold">Section Title</label>
-                            <input
-                              value={result.title}
-                              onChange={(e) => updateResult(index, "title", e.target.value)}
-                              className="w-full bg-transparent border-b border-white/10 py-2 outline-none text-[#C5C5C5] focus:border-white transition-all"
-                              placeholder="e.g. User Interface"
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-[8px] text-[#919191] uppercase tracking-[0.2em] font-bold">Description</label>
-                            <textarea
-                              rows={3}
-                              value={result.description}
-                              onChange={(e) => updateResult(index, "description", e.target.value)}
-                              className="w-full bg-transparent border-b border-white/10 py-2 outline-none text-[#919191] text-sm focus:border-white transition-all"
-                              placeholder="Detail about this result..."
-                            />
-                          </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <div className="space-y-2">
+                          <label className="text-[8px] text-[#919191] uppercase tracking-[0.2em] font-bold">Section Title</label>
+                          <input
+                            value={result.title}
+                            onChange={(e) => updateResult(index, "title", e.target.value)}
+                            className="w-full bg-transparent border-b border-white/10 py-2 outline-none text-[#C5C5C5] focus:border-white transition-all"
+                            placeholder="e.g. Secure Onboarding (Registration Page)"
+                          />
                         </div>
                         
                         <ImageUpload
-                          label="Result Image"
+                          label="Result Image / Architecture Screenshot"
                           value={result.imageUrl || ""}
                           onChange={(e) => handleImageUpload(e, `result_${index}`, index)}
                           isUploading={uploading === `result_${index}`}
                           dimensions="1280x720 (16:9)"
                           uploadText="IMAGE"
+                        />
+                      </div>
+
+                      {/* Result Article Content Editor */}
+                      <div className="space-y-2 pt-2">
+                        <div className="flex justify-between items-center">
+                          <label className="text-[8px] text-[#919191] uppercase tracking-[0.2em] font-bold">
+                            Result Article & Content (Rich Formatted Text / Markdown)
+                          </label>
+                          <span className="text-[9px] text-[#666]">Supports Headings, Lists, Quotes & Code</span>
+                        </div>
+                        <TipTapEditor
+                          key={`result_editor_${index}`}
+                          value={result.description}
+                          onChange={(content) => updateResult(index, "description", content)}
+                          placeholder="Write the result article, system architecture details, key features, bullet points, or technical notes..."
+                          onImageUpload={handleEditorImageUpload}
                         />
                       </div>
                     </div>

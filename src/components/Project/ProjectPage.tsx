@@ -13,7 +13,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [openResults, setOpenResults] = useState<number[]>([]);
+  const [openResults, setOpenResults] = useState<number[]>([0]);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -23,7 +23,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
         const data = await projectService.getById(projectId);
         if (data) {
           setProject(data);
-          setOpenResults([]);
+          setOpenResults([0]);
         }
       } catch (err) {
         console.error("Error fetching project:", err);
@@ -37,9 +37,18 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
 
   const toggleResult = (index: number) => {
     if (openResults.includes(index)) {
-      setOpenResults(openResults.filter(i => i !== index));
+      setOpenResults(openResults.filter((i) => i !== index));
     } else {
       setOpenResults([...openResults, index]);
+    }
+  };
+
+  const toggleAllResults = () => {
+    if (!project?.results) return;
+    if (openResults.length === project.results.length) {
+      setOpenResults([]);
+    } else {
+      setOpenResults(project.results.map((_, i) => i));
     }
   };
 
@@ -151,46 +160,92 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ projectId }) => {
           {/* Results Toggle Cards */}
           {project.results && project.results.length > 0 && (
             <div>
-              <h2 className="text-2xl font-bold text-[#C5C5C5] mb-6">Results</h2>
-              <div className="grid grid-cols-1 gap-8 mt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[#C5C5C5]">Results & Detail Sections</h2>
+                  <p className="text-sm text-[#919191] mt-1">Detailed case studies, system walkthroughs, and deliverables</p>
+                </div>
+                {project.results.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={toggleAllResults}
+                    className="self-start sm:self-auto px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-[#C5C5C5] hover:text-white transition-all cursor-pointer border border-white/10"
+                  >
+                    {openResults.length === project.results.length ? "Collapse All" : "Expand All"}
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 gap-8 mt-6">
                 {project.results.map((result, index) => {
                   const isOpen = openResults.includes(index);
                   return (
                     <div
                       key={index}
-                      className="rounded-3xl overflow-hidden transition-all duration-300 shadow-sm"
+                      className="rounded-3xl overflow-hidden transition-all duration-300 shadow-sm border border-neutral-200/60 bg-white"
                     >
+                      {/* Interactive Card Header Bar */}
                       <button
+                        type="button"
                         onClick={() => toggleResult(index)}
-                        className={`w-full p-6 flex justify-between items-start text-left transition-all duration-500 ease-in-out ${
-                          isOpen ? "bg-white" : "bg-[#E2E2E2]"
-                        } hover:opacity-95`}
+                        aria-expanded={isOpen}
+                        className={`w-full p-6 sm:p-7 flex justify-between items-center text-left transition-all duration-300 ${
+                          isOpen ? "bg-white border-b border-gray-100" : "bg-[#EAEAEA] hover:bg-[#E2E2E2]"
+                        } cursor-pointer group`}
                       >
-                        <div className="max-w-3xl">
-                          <h3 className="text-xl font-bold mb-3 text-black">
+                        <div className="flex items-center gap-3.5 pr-4 min-w-0">
+                          <span
+                            className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center flex-shrink-0 transition-colors ${
+                              isOpen ? "bg-black text-white" : "bg-neutral-800 text-white"
+                            }`}
+                          >
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="text-lg sm:text-xl font-bold text-black tracking-tight group-hover:text-neutral-700 transition-colors">
                             {result.title}
                           </h3>
-                          <p className="text-[#474747] leading-relaxed">
-                            {result.description}
-                          </p>
                         </div>
-                        <div className={`mt-1 transition-transform duration-500 ease-in-out ${isOpen ? "rotate-180 text-black" : "rotate-0 text-gray-600"}`}>
-                          <FiChevronDown size={28} />
+                        <div
+                          className={`p-2 rounded-full transition-all duration-300 ${
+                            isOpen
+                              ? "rotate-180 bg-neutral-100 text-black"
+                              : "rotate-0 text-neutral-600 group-hover:bg-white/80"
+                          }`}
+                        >
+                          <FiChevronDown size={22} />
                         </div>
                       </button>
 
-                      <div 
+                      {/* Expandable Article Body & Media */}
+                      <div
                         className={`grid transition-all duration-500 ease-in-out bg-white ${
                           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                         }`}
                       >
                         <div className="overflow-hidden">
-                          <img
-                            src={result.imageUrl}
-                            alt={result.title}
-                            className="w-full h-auto"
-                            style={{ minHeight: "250px" }}
-                          />
+                          <div className="p-6 sm:p-8 lg:p-10 space-y-8 bg-white">
+                            {/* Rich Article Formatted Text */}
+                            {result.description && (
+                              <article className="max-w-none">
+                                <TipTapContent
+                                  content={result.description}
+                                  className="result-article-prose"
+                                />
+                              </article>
+                            )}
+
+                            {/* Result Media / Screenshot */}
+                            {result.imageUrl && (
+                              <div className="rounded-2xl overflow-hidden border border-gray-200/80 shadow-md bg-neutral-950">
+                                <img
+                                  src={result.imageUrl}
+                                  alt={result.title}
+                                  className="w-full h-auto object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
