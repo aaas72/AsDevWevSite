@@ -9,11 +9,11 @@ const BlogPostScreen: React.FC = () => {
   return (
     <div className="min-h-screen">
       <Seo
-        title={`Blog Post | AS.DEV`}
-        description="Detailed technical blog post by Abdellah S.DEV."
-        keywords={["blog","article","AS.DEV"]}
+        title={`Blog Post | Abdellah Sheikh`}
+        description="Detailed technical blog post by Abdellah Sheikh (عبداللاه شيخ)."
+        keywords={["blog", "article", "Abdellah Sheikh", "عبداللاه شيخ", "software engineering"]}
         canonicalPath={`/blog/${blogId ?? ""}`}
-        image="/src/assets/myPhoto.png"
+        image="/favicon.svg"
         type="article"
       />
       <NavBar />

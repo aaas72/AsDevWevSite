@@ -55,7 +55,7 @@ const MenuBar = ({ editor, onImageUpload, minimal }: { editor: any, onImageUploa
       if (file) {
         try {
           setIsUploadingImage(true);
-          // Insert a temporary placeholder image that matches the platform's identity (AS.DEV Loading screen)
+          // Insert a temporary placeholder image that matches the platform's loading screen
           const loadingSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='100' viewBox='0 0 800 100'%3E%3Crect width='800' height='100' fill='%230a0a0a' rx='16'/%3E%3Crect x='300' y='40' width='200' height='2' fill='%23ffffff' fill-opacity='0.05'/%3E%3Crect x='300' y='40' width='50' height='2' fill='%23C5C5C5'%3E%3Canimate attributeName='x' values='300; 450; 300' dur='2s' repeatCount='indefinite'/%3E%3C/rect%3E%3Ctext x='400' y='65' font-family='system-ui, sans-serif' font-size='10' font-weight='bold' letter-spacing='6' text-anchor='middle' fill='%23555555'%3EUPLOADING MEDIA...%3C/text%3E%3C/svg%3E";
           
           // Get the current position

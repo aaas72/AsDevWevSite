@@ -12,26 +12,21 @@ function AboutMeScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="About Abdellah Sheikh (Abdellah Aidaros) | AS.DEV — Profile & CV"
-        description="Learn more about Abdellah Sheikh (Abdellah Aidaros / عبداللاه عيدروس / عبداللاه شيخ / AS.DEV), Full-Stack Software Engineer, skills, background, and career journey."
+        title="About Abdellah Sheikh | عن عبداللاه شيخ — Profile & CV"
+        description="سيرة وخبرات المهندس عبداللاه شيخ (Abdellah Sheikh). مهندس برمجيات ومطور ويب متكامل، المؤهلات والخبرات والمشاريع الهندسية. Full-Stack Software Engineer."
         keywords={[
           "Abdellah Sheikh",
-          "Abdellah Aidaros",
-          "AS.DEV",
-          "asdev",
-          "as-dev",
-          "as.dev",
-          "as dev",
-          "عبداللاه عيدروس",
           "عبداللاه شيخ",
           "عبداللاه الشيخ",
-          "about abdellah",
+          "about abdellah sheikh",
+          "سيرة ذاتية عبداللاه شيخ",
           "CV",
           "resume",
-          "software engineer"
+          "software engineer",
+          "مهندس برمجيات"
         ]}
         canonicalPath="/about"
-        image="/src/assets/myPhoto.png"
+        image="/favicon.svg"
         type="profile"
       />
       <NavBar />

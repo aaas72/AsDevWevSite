@@ -65,7 +65,7 @@ const AdminLayout: React.FC = () => {
           {/* Logo Section */}
           <div className={`${sideElementsClass} logo-container hidden sm:flex items-center gap-2 group pointer-events-auto`}>
             <Link to="/" className="flex items-center gap-3">
-              <h1 className="logo text-2xl font-bold text-[#C5C5C5] tracking-tighter">AS.DEV <span className="text-[9px] uppercase tracking-[0.3em] font-medium text-[#919191]">Admin</span></h1>
+              <h1 className="logo text-xl font-bold text-[#C5C5C5] tracking-tight">Abdellah Sheikh <span className="text-[9px] uppercase tracking-[0.3em] font-medium text-[#919191]">Admin</span></h1>
             </Link>
           </div>
 

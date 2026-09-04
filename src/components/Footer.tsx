@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-col space-y-4 p-4 items-start ">
             <div className="flex items-center space-x-4">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/abdellahsheikh/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
                 <FaLinkedin size={24} aria-hidden="true" />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/aaas72"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <div className="text-sm text-[#C5C5C5]">
-              © 2025 AS.DEV . ALL RIGHTS RESERVED.
+              © {new Date().getFullYear()} Abdellah Sheikh (عبداللاه شيخ). All rights reserved.
             </div>
           </div>
 
@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
             >
               PRIVACY POLICY
             </a>
-            <div className="text-sm text-[#C5C5C5]">
-              DEVELOPED BY ABDELLAH S.DEV
+            <div className="text-sm text-[#C5C5C5] tracking-wide">
+              Abdellah Sheikh — Software Engineer
             </div>
           </div>
         </div>

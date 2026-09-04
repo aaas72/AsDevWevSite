@@ -37,8 +37,8 @@ const Login: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-[#0A0A0A] main-app noise">
       <div className="w-full max-w-md p-10 space-y-10 bg-[#1A1A1A]/40 border border-white/5 rounded-[2.5rem] backdrop-blur-2xl shadow-2xl">
         <div className="text-center">
-          <h1 className="text-5xl font-bold tracking-tighter text-[#C5C5C5]">AS.DEV</h1>
-          <p className="mt-4 text-[10px] text-[#919191] tracking-[0.4em] uppercase font-medium">Restricted Access</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#C5C5C5]">Abdellah Sheikh</h1>
+          <p className="mt-2 text-[10px] text-[#919191] tracking-[0.4em] uppercase font-medium">Restricted Access</p>
         </div>
 
         <form className="space-y-8" onSubmit={handleLogin}>
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-6 py-4 text-[#C5C5C5] bg-white/5 border border-white/10 rounded-2xl focus:ring-1 focus:ring-[#C5C5C5]/20 focus:border-[#C5C5C5]/20 transition-all duration-300 outline-none placeholder:text-gray-700"
-                placeholder="admin@as.dev"
+                placeholder="admin@abdellahsheikh.dev"
               />
             </div>
             <div className="space-y-2">

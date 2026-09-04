@@ -10,25 +10,20 @@ function BlogScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="Technical Blog & Architecture Insights | Abdellah Sheikh (Abdellah Aidaros) — AS.DEV"
-        description="Technical articles, system design patterns, and engineering insights by Abdellah Sheikh (Abdellah Aidaros / عبداللاه عيدروس / عبداللاه شيخ / AS.DEV)."
+        title="Technical Blog | مدونة Abdellah Sheikh — عبداللاه شيخ"
+        description="مقالات هندسية ورؤى معمارية برمجية يكتبها المهندس عبداللاه شيخ (Abdellah Sheikh). Software engineering insights and architecture."
         keywords={[
           "Abdellah Sheikh",
-          "Abdellah Aidaros",
-          "AS.DEV",
-          "asdev",
-          "as-dev",
-          "as.dev",
-          "as dev",
-          "عبداللاه عيدروس",
           "عبداللاه شيخ",
           "عبداللاه الشيخ",
+          "Abdellah Sheikh blog",
+          "مدونة عبداللاه شيخ",
           "blog",
           "software engineering blog",
           "web architecture"
         ]}
         canonicalPath="/blog"
-        image="/src/assets/myPhoto.png"
+        image="/favicon.svg"
         type="website"
       />
       <NavBar />

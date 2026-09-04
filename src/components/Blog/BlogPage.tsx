@@ -51,9 +51,9 @@ const BlogPage: React.FC<BlogPageProps> = ({ blogId }) => {
   return (
     <div className="blog-page">
       <Seo
-        title={`${blog.title} — AS.DEV`}
+        title={`${blog.title} — Abdellah Sheikh`}
         description={blog.short_description}
-        keywords={[...(blog.tags || []), "AS.DEV", "blog"]}
+        keywords={[...(blog.tags || []), "Abdellah Sheikh", "عبداللاه شيخ", "blog"]}
         image={blog.cover_image || blog.image_url}
         type="article"
         canonicalPath={`/blog/${blog.id}`}

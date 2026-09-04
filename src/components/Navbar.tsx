@@ -137,13 +137,13 @@ export default function Navbar() {
       <div className="navbar-container max-w-[1440px] min-h-[50px] xs:min-h-[55px] sm:min-h-[65px] md:min-h-[75px] lg:min-h-[85px] mx-auto flex sm:grid sm:grid-cols-[auto_1fr_auto] items-center justify-between px-3 xs:px-4 sm:px-6 md:px-8 lg:px-10">
         
         {/* Logo */}
-        <div className={logoClasses}>
-          <h1 className={`logo text-lg xs:text-xl sm:text-xl md:text-2xl font-bold transition-colors duration-500 ${
+        <Link to="/" className={logoClasses} title="Abdellah Sheikh | عبداللاه شيخ">
+          <span className={`logo text-base xs:text-lg sm:text-xl md:text-2xl font-bold tracking-tight transition-colors duration-500 ${
             isLight ? "text-[#1E1E1E]" : "text-[#C5C5C5]"
           }`}>
-            AS.DEV
-          </h1>
-        </div>
+            Abdellah Sheikh
+          </span>
+        </Link>
 
         {/* Mobile Menu Button */}
         <button 

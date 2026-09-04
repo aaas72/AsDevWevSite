@@ -65,7 +65,7 @@ export default function Seo({
     upsertMetaByProperty("og:type", type);
     upsertMetaByProperty("og:url", canonical);
     if (image) upsertMetaByProperty("og:image", image);
-    upsertMetaByProperty("og:site_name", "AS.DEV");
+    upsertMetaByProperty("og:site_name", "Abdellah Sheikh | عبداللاه شيخ");
 
     upsertMetaByName("twitter:card", image ? "summary_large_image" : "summary");
     upsertMetaByName("twitter:title", title);

@@ -11,25 +11,20 @@ function ProjectsScreen() {
   return (
     <div className="min-h-screen">
       <Seo
-        title="Projects & Engineering Systems | Abdellah Sheikh (Abdellah Aidaros) — AS.DEV"
-        description="Explore selected web applications, cloud architectures, and software engineering projects by Abdellah Sheikh (Abdellah Aidaros / عبداللاه عيدروس / عبداللاه شيخ / AS.DEV)."
+        title="Projects & Engineering Systems | مشاريع Abdellah Sheikh — عبداللاه شيخ"
+        description="معرض المشاريع والتطبيقات والأنظمة البرمجية للمهندس عبداللاه شيخ (Abdellah Sheikh). Selected web applications and architectures."
         keywords={[
           "Abdellah Sheikh",
-          "Abdellah Aidaros",
-          "AS.DEV",
-          "asdev",
-          "as-dev",
-          "as.dev",
-          "as dev",
-          "عبداللاه عيدروس",
           "عبداللاه شيخ",
           "عبداللاه الشيخ",
+          "Abdellah Sheikh projects",
+          "مشاريع عبداللاه شيخ",
           "projects",
-          "engineered systems",
+          "software engineering",
           "portfolio"
         ]}
         canonicalPath="/projects"
-        image="/src/assets/myPhoto.png"
+        image="/favicon.svg"
         type="website"
       />
       <NavBar />

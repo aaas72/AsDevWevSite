@@ -5,9 +5,12 @@ const Loading: React.FC = () => {
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0A0A0A] main-app noise">
       <div className="relative flex flex-col items-center">
         {/* Logo Text with Pulse Effect */}
-        <h1 className="text-4xl font-bold tracking-[0.5em] text-[#C5C5C5] animate-pulse">
-          AS.DEV
-        </h1>
+        <div className="text-2xl sm:text-3xl font-bold tracking-[0.25em] text-[#E5E5E5] animate-pulse uppercase">
+          Abdellah Sheikh
+        </div>
+        <p className="text-xs text-[#888] font-medium mt-1 tracking-widest" dir="rtl">
+          عبداللاه شيخ
+        </p>
         
         {/* Minimal Progress Bar */}
         <div className="mt-8 w-48 h-[1px] bg-white/5 overflow-hidden">

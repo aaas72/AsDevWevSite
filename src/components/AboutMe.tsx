@@ -694,11 +694,16 @@ const AboutMe: React.FC = () => {
                   </div>
                 )}
                 <div className="flex flex-col min-w-0">
-                  <p className="text-[#111] text-base lg:text-sm font-bold tracking-tight truncate">
-                    {display.name}
-                  </p>
+                  <div className="flex items-baseline gap-1.5 flex-wrap">
+                    <p className="text-[#111] text-base lg:text-sm font-bold tracking-tight truncate">
+                      {display.name}
+                    </p>
+                    <span className="text-[#555] text-xs font-medium" dir="rtl">
+                      (عبداللاه شيخ)
+                    </span>
+                  </div>
                   <p className="text-[#666] text-xs lg:text-[10px] font-medium">
-                    Software Engineer
+                    Software Engineer • مهندس برمجيات
                   </p>
                 </div>
               </div>
