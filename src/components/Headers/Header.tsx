@@ -20,15 +20,9 @@ const Header = () => {
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#E5E5E5] mb-2 sm:mb-3 tracking-tight">
           Abdellah Sheikh
         </h1>
-        <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 flex-wrap justify-center">
-          <span className="text-xl sm:text-2xl md:text-3xl text-[#C5C5C5] font-light tracking-wide">
-            Software Engineer
-          </span>
-          <span className="text-[#666] hidden xs:inline">•</span>
-          <span className="text-xl sm:text-2xl md:text-3xl text-[#A3A3A3] font-medium" dir="rtl">
-            عبداللاه شيخ
-          </span>
-        </div>
+        <p className="text-xl sm:text-2xl md:text-3xl text-[#C5C5C5] font-light tracking-wide mb-4 sm:mb-6">
+          Software Engineer
+        </p>
         <p className="text-base sm:text-lg md:text-xl text-[#C5C5C5] max-w-2xl leading-relaxed">
           A software engineer specializing in building high-performance web systems, MVPs, and modern digital architectures. Transforming vision into scalable engineering solutions.
         </p>
